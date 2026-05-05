@@ -17,7 +17,7 @@ const ASSETS = [
   './js/firebaseConfig.js',
   './manifest.json',
   './assets/icons/icon-512.jpg',
-  './assets/screenshots/mobile.png'
+  './assets/screenshots/mobile.jpg'
 ];
 
 // Install: cache all core assets
