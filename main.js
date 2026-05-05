@@ -822,3 +822,32 @@ window.addEventListener('DOMContentLoaded', () => {
         // Optionally trigger the masterAgent.handleUserQuery() here
     }
 });
+
+// ─── PWA Sync & Notifications ────────────────────────────────────────────────
+async function registerSyncs() {
+    if ('serviceWorker' in navigator) {
+        const registration = await navigator.serviceWorker.ready;
+        
+        // 1. Background Sync
+        if ('sync' in registration) {
+            try { await registration.sync.register('sync-queries'); } catch (e) { console.log('Background Sync failed'); }
+        }
+
+        // 2. Periodic Sync (requires app installation)
+        if ('periodicSync' in registration) {
+            try {
+                const status = await navigator.permissions.query({ name: 'periodic-background-sync' });
+                if (status.state === 'granted') {
+                    await registration.periodicSync.register('daily-wisdom', { minInterval: 24 * 60 * 60 * 1000 });
+                }
+            } catch (e) { console.log('Periodic Sync failed'); }
+        }
+
+        // 3. Push Notifications
+        if ('Notification' in window) {
+            const permission = await Notification.requestPermission();
+            if (permission === 'granted') console.log('Notification permission granted');
+        }
+    }
+}
+registerSyncs();
