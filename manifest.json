@@ -12,6 +12,12 @@
       "url": "url"
     }
   },
+  "protocol_handlers": [
+    {
+      "protocol": "web+wisdom",
+      "url": "./index.html?wisdom=%s"
+    }
+  ],
   "name": "Krishna Says",
   "short_name": "Krishna",
   "description": "AI-powered spiritual guidance inspired by timeless wisdom of the Bhagavad Gita.",
