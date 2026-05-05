@@ -57,6 +57,23 @@
       "label": "Mobile view of Krishna Says"
     }
   ],
+  "file_handlers": [
+    {
+      "action": "./index.html",
+      "accept": {
+        "text/plain": [".txt"],
+        "application/json": [".json"]
+      },
+      "icons": [
+        {
+          "src": "./assets/icons/icon-96.png",
+          "sizes": "96x96",
+          "type": "image/jpeg"
+        }
+      ],
+      "launch_type": "single-client"
+    }
+  ],
   "shortcuts": [
     {
       "name": "Ask Wisdom",

@@ -800,3 +800,13 @@ document.addEventListener('mouseout', (e) => {
     card.style.setProperty('--y', '-100%');
 });
 
+
+// ─── PWA File Handling ────────────────────────────────────────────────────────
+if (typeof launchQueue !== 'undefined') {
+    launchQueue.setConsumer((launchParams) => {
+        if (launchParams.files && launchParams.files.length) {
+            console.log('[PWA] Launched with file:', launchParams.files[0].name);
+            if (typeof showToast === 'function') showToast('Opening file: ' + launchParams.files[0].name, 'info');
+        }
+    });
+}
