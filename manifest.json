@@ -3,6 +3,15 @@
   "launch_handler": {
     "client_mode": "focus-existing"
   },
+  "share_target": {
+    "action": "./index.html",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
   "name": "Krishna Says",
   "short_name": "Krishna",
   "description": "AI-powered spiritual guidance inspired by timeless wisdom of the Bhagavad Gita.",

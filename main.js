@@ -810,3 +810,15 @@ if (typeof launchQueue !== 'undefined') {
         }
     });
 }
+
+// ─── PWA Share Target Handling ────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+    const parsedUrl = new URL(window.location);
+    const sharedText = parsedUrl.searchParams.get('text') || parsedUrl.searchParams.get('title') || parsedUrl.searchParams.get('url');
+    if (sharedText && elements.chatInput) {
+        console.log('[PWA] Received shared content:', sharedText);
+        elements.chatInput.value = sharedText;
+        showToast('Shared content received', 'info');
+        // Optionally trigger the masterAgent.handleUserQuery() here
+    }
+});
