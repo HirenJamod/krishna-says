@@ -1,5 +1,8 @@
 {
   "id": "krishna-says-pwa",
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
   "name": "Krishna Says",
   "short_name": "Krishna",
   "description": "AI-powered spiritual guidance inspired by timeless wisdom of the Bhagavad Gita.",
