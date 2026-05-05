@@ -23,6 +23,10 @@
   "description": "AI-powered spiritual guidance inspired by timeless wisdom of the Bhagavad Gita.",
   "start_url": "./index.html",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "tabbed", "standalone"],
+  "note_taking": {
+    "new_note_url": "./index.html#chat"
+  },
   "orientation": "portrait",
   "background_color": "#F5F5F7",
   "theme_color": "#D4AF37",
