@@ -1,0 +1,42 @@
+{
+  "branding": {
+    "appTitle": "Krishna Says",
+    "appTagline": "Modern Spiritual Guidance",
+    "welcomeMessage": "Greetings, seeker. What guidance do you search for today?"
+  },
+  "loginScreen": {
+    "sanskritText": "श्री कृष्ण उवाच",
+    "loginTitle": "Divine Wisdom",
+    "loginSubtitle": "Seek guidance from the timeless consciousness...",
+    "ascentBtnLabel": "✨ Ascend ✨",
+    "disclaimer": "This mirror reflects timeless philosophy for self-awareness. It is not a substitute for professional counsel."
+  },
+  "plans": {
+    "basic": {
+      "name": "Basic Seeker",
+      "price": 99,
+      "credits": 50,
+      "features": ["50 Questions", "Basic Support", "Ad-free Experience"]
+    },
+    "unlimited": {
+      "name": "Divine Unlimited",
+      "price": 299,
+      "features": ["Unlimited Questions", "Priority AI Response", "Immersive 3D Rooms"]
+    }
+  },
+  "freeTier": {
+    "dailyLimit": 5,
+    "startingCredits": 10
+  },
+  "display": {
+    "defaultSound": "flute",
+    "defaultDepth": "practical",
+    "templeModeEnabled": true
+  },
+  "announcement": {
+    "enabled": false,
+    "message": "",
+    "type": "info"
+  },
+  "wisdom": []
+}

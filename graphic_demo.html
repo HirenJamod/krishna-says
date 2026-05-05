@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Core Graphics Demo</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;600&display=swap');
+
+        body {
+            margin: 0;
+            background: #020617; /* Deep Space Black */
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            display: flex;
+            height: 100vh;
+            justify-content: space-evenly;
+            align-items: center;
+            overflow: hidden;
+            background-image: radial-gradient(circle at 50% 50%, rgba(129, 140, 248, 0.1) 0%, transparent 70%);
+        }
+
+        /* -----------------------------------
+           CONCEPT 1: THE DIVINE CORE
+           (Represents the AI 'Thinking')
+        ----------------------------------- */
+        .divine-core-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            filter: drop-shadow(0 0 30px rgba(129, 140, 248, 0.5));
+        }
+
+        .geometry {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 1px solid rgba(192, 132, 252, 0.5);
+            border-radius: 50%;
+            animation: spin 20s linear infinite;
+        }
+
+        .geo-1 { border-radius: 30%; animation-duration: 15s; border-color: rgba(129, 140, 248, 0.8); }
+        .geo-2 { border-radius: 40%; animation-duration: 25s; animation-direction: reverse; border-color: rgba(248, 250, 252, 0.4); }
+        .geo-3 { border-radius: 35%; animation-duration: 10s; width: 70%; height: 70%; border-color: rgba(255, 153, 51, 0.6); }
+        
+        .core-glow {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 50px 20px rgba(129, 140, 248, 0.8);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes pulse { 
+            0%, 100% { transform: scale(1); opacity: 0.8; } 
+            50% { transform: scale(1.5); opacity: 1; box-shadow: 0 0 80px 30px rgba(192, 132, 252, 1); } 
+        }
+
+        /* -----------------------------------
+           CONCEPT 2: HOLOGRAPHIC CARD
+           (How verses will be displayed)
+        ----------------------------------- */
+        .holo-card {
+            width: 300px;
+            height: 400px;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transition: transform 0.1s ease;
+            transform-style: preserve-3d;
+        }
+
+        /* The Glare Effect */
+        .holo-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 200%; height: 200%;
+            background: linear-gradient(
+                115deg,
+                transparent 20%,
+                rgba(255, 255, 255, 0.3) 30%,
+                transparent 40%
+            );
+            transform: translate(-100%, -100%);
+            transition: transform 0.1s ease;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+        }
+
+        .holo-card:hover::before {
+            transform: translate(var(--x, 0), var(--y, 0));
+        }
+
+        .holo-card h3 {
+            color: #818cf8;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 0;
+        }
+
+        .holo-card p {
+            color: #e2e8f0;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .label {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: #94a3b8;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Graphic 1 -->
+    <div style="position: relative;">
+        <div class="divine-core-container">
+            <div class="geometry geo-1"></div>
+            <div class="geometry geo-2"></div>
+            <div class="geometry geo-3"></div>
+            <div class="core-glow"></div>
+        </div>
+        <div class="label">1. The "Divine Core" (AI Thinking)</div>
+    </div>
+
+    <!-- Graphic 2 -->
+    <div style="position: relative;">
+        <div class="holo-card" id="card">
+            <h3>Chapter 2, Verse 47</h3>
+            <p>"You have a right to perform your prescribed duties, but you are not entitled to the fruits of your actions. Never consider yourself to be the cause of the results of your activities..."</p>
+        </div>
+        <div class="label">2. Holographic Wisdom Card</div>
+    </div>
+
+    <script>
+        // Physics for Holographic Card Glare
+        const card = document.getElementById('card');
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Move the glare
+            card.style.setProperty('--x', `${(x / rect.width) * 100 - 50}%`);
+            card.style.setProperty('--y', `${(y / rect.height) * 100 - 50}%`);
+            
+            // Slight 3D tilt on hover
+            const xAxis = (rect.width / 2 - x) / 10;
+            const yAxis = (rect.height / 2 - y) / 10;
+            card.style.transform = `perspective(1000px) rotateY(${-xAxis}deg) rotateX(${yAxis}deg) scale(1.05)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1)';
+            card.style.setProperty('--x', '-100%');
+            card.style.setProperty('--y', '-100%');
+        });
+    </script>
+</body>
+</html>

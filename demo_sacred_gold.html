@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Krishna Says — Sacred Gold Design Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #080810;
+    --gold: #D4AF37;
+    --saffron: #FF9933;
+    --crimson: #C84B31;
+    --surface: rgba(212,175,55,0.05);
+    --border: rgba(212,175,55,0.18);
+    --text: #FDF6E3;
+    --dim: #A89060;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;height:100vh;overflow:hidden;display:flex;justify-content:center;align-items:center;}
+
+/* Background */
+.bg {
+    position:fixed;inset:0;z-index:0;
+    background:
+        radial-gradient(ellipse 60% 50% at 20% 50%, rgba(212,175,55,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 60% at 80% 30%, rgba(255,153,51,0.05) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 50% 100%, rgba(200,75,49,0.06) 0%, transparent 60%);
+}
+.mandala-bg {
+    position:fixed;inset:0;z-index:0;opacity:0.03;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='90' fill='none' stroke='%23D4AF37' stroke-width='0.5'/%3E%3Ccircle cx='100' cy='100' r='70' fill='none' stroke='%23D4AF37' stroke-width='0.5'/%3E%3Ccircle cx='100' cy='100' r='50' fill='none' stroke='%23D4AF37' stroke-width='0.5'/%3E%3Ccircle cx='100' cy='100' r='30' fill='none' stroke='%23D4AF37' stroke-width='0.5'/%3E%3Cpolygon points='100,10 190,145 10,145' fill='none' stroke='%23D4AF37' stroke-width='0.5'/%3E%3Cpolygon points='100,190 10,55 190,55' fill='none' stroke='%23D4AF37' stroke-width='0.5'/%3E%3C/svg%3E");
+    background-size:400px;background-position:center;
+}
+
+/* App Shell */
+.shell {
+    position:relative;z-index:1;
+    width:92%;max-width:1100px;height:86vh;
+    display:grid;grid-template-columns:260px 1fr;
+    border-radius:28px;overflow:hidden;
+    border:1px solid var(--border);
+    box-shadow:0 0 80px rgba(212,175,55,0.08), 0 40px 80px rgba(0,0,0,0.6);
+    background:rgba(8,8,16,0.95);
+    backdrop-filter:blur(30px);
+}
+
+/* Sidebar */
+.sidebar {
+    border-right:1px solid var(--border);
+    padding:2rem 1.5rem;
+    display:flex;flex-direction:column;gap:1.5rem;
+    background:linear-gradient(180deg, rgba(212,175,55,0.04) 0%, transparent 100%);
+}
+.logo {
+    display:flex;align-items:center;gap:0.75rem;
+}
+.lotus-icon { font-size:1.8rem;filter:drop-shadow(0 0 8px rgba(212,175,55,0.6)); }
+.logo-text {
+    font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;
+    background:linear-gradient(to bottom, var(--gold), var(--saffron));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    letter-spacing:1px;
+}
+.streak {
+    background:rgba(212,175,55,0.08);border:1px solid var(--border);
+    border-radius:14px;padding:0.8rem 1rem;
+    display:flex;align-items:center;gap:0.75rem;
+}
+.streak-num { font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--gold); }
+.nav { display:flex;flex-direction:column;gap:0.4rem; }
+.nav-item {
+    padding:0.7rem 1rem;border-radius:12px;cursor:pointer;
+    color:var(--dim);display:flex;align-items:center;gap:0.75rem;font-size:0.9rem;
+    transition:all 0.25s;
+}
+.nav-item.active { background:rgba(212,175,55,0.1);color:var(--gold);border-left:2px solid var(--gold); }
+.nav-item:hover:not(.active) { background:rgba(212,175,55,0.05);color:var(--text); }
+.plan-badge {
+    margin-top:auto;padding:1rem;border-radius:14px;
+    background:linear-gradient(135deg,rgba(212,175,55,0.12),rgba(255,153,51,0.06));
+    border:1px solid var(--border);
+}
+.plan-label { font-size:0.7rem;color:var(--dim);text-transform:uppercase;letter-spacing:1px; }
+.plan-name { font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin-top:0.2rem; }
+
+/* Main */
+.main { display:flex;flex-direction:column;padding:2rem;overflow:hidden; }
+.main-header { margin-bottom:1.5rem; }
+.main-header h1 { font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;color:var(--gold); }
+.main-header p { font-size:0.85rem;color:var(--dim);margin-top:0.2rem; }
+
+/* Verse of Day */
+.verse-banner {
+    background:linear-gradient(90deg,rgba(212,175,55,0.08),rgba(255,153,51,0.05));
+    border:1px solid rgba(212,175,55,0.25);border-radius:16px;
+    padding:1rem 1.25rem;margin-bottom:1.25rem;
+    border-left:3px solid var(--gold);
+}
+.verse-label { font-size:0.65rem;color:var(--gold);text-transform:uppercase;letter-spacing:2px;margin-bottom:0.4rem; }
+.verse-text { font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--text);font-style:italic;line-height:1.5; }
+
+/* Mood chips */
+.moods { display:flex;gap:0.6rem;margin-bottom:1.25rem;flex-wrap:wrap; }
+.chip {
+    padding:0.35rem 1rem;border-radius:100px;font-size:0.78rem;cursor:pointer;
+    border:1px solid var(--border);color:var(--dim);transition:all 0.2s;
+    background:transparent;
+}
+.chip.active { background:var(--gold);color:#080810;border-color:var(--gold);font-weight:600; }
+
+/* Chat */
+.chat { flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:1.2rem;padding-bottom:1rem; }
+.msg { max-width:78%;padding:1rem 1.25rem;border-radius:18px;font-size:0.92rem;line-height:1.65;animation:fadeUp 0.5s ease both; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+.ai-msg {
+    align-self:flex-start;
+    background:rgba(212,175,55,0.05);
+    border:1px solid rgba(212,175,55,0.15);
+    border-left:3px solid var(--gold);
+    border-radius:4px 18px 18px 18px;
+    color:var(--text);
+}
+.ai-msg .label { font-size:0.65rem;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:0.5rem;display:block; }
+
+.user-msg {
+    align-self:flex-end;
+    background:linear-gradient(135deg, var(--saffron), var(--crimson));
+    color:white;
+    border-radius:18px 4px 18px 18px;
+    font-weight:500;
+}
+.msg-actions { display:flex;gap:1rem;margin-top:0.75rem; }
+.action { font-size:0.72rem;color:var(--gold);cursor:pointer;opacity:0.7; }
+
+/* Typing dots */
+.typing { align-self:flex-start;display:flex;gap:5px;padding:1rem 1.25rem;background:rgba(212,175,55,0.05);border:1px solid rgba(212,175,55,0.15);border-left:3px solid var(--gold);border-radius:4px 18px 18px 18px; }
+.dot { width:7px;height:7px;background:var(--gold);border-radius:50%;animation:bounce 1.2s ease-in-out infinite; }
+.dot:nth-child(2){animation-delay:0.2s}.dot:nth-child(3){animation-delay:0.4s}
+@keyframes bounce { 0%,60%,100%{transform:translateY(0);opacity:0.4} 30%{transform:translateY(-7px);opacity:1} }
+
+/* Input */
+.input-wrap {
+    display:flex;gap:0.75rem;margin-top:auto;
+    background:rgba(212,175,55,0.05);
+    border:1px solid var(--border);border-radius:50px;padding:0.6rem 0.8rem 0.6rem 1.25rem;
+    transition:border-color 0.3s;
+}
+.input-wrap:focus-within { border-color:rgba(212,175,55,0.5);box-shadow:0 0 20px rgba(212,175,55,0.1); }
+.input-wrap input { flex:1;background:transparent;border:none;color:var(--text);font-size:0.92rem;outline:none;font-family:'DM Sans',sans-serif; }
+.input-wrap input::placeholder { color:var(--dim); }
+.send-btn {
+    background:linear-gradient(135deg,var(--gold),var(--saffron));
+    border:none;border-radius:50px;padding:0.6rem 1.4rem;
+    color:#080810;font-weight:700;font-size:0.85rem;cursor:pointer;
+    font-family:'DM Sans',sans-serif;letter-spacing:0.5px;
+    transition:transform 0.2s,box-shadow 0.2s;
+    box-shadow:0 4px 15px rgba(212,175,55,0.3);
+}
+.send-btn:hover { transform:scale(1.05);box-shadow:0 6px 20px rgba(212,175,55,0.4); }
+.mic-btn { background:transparent;border:1px solid var(--border);border-radius:50%;width:40px;height:40px;color:var(--dim);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.2s; }
+.mic-btn:hover { border-color:var(--gold);color:var(--gold); }
+
+/* Design label */
+.design-tag {
+    position:fixed;top:1rem;right:1rem;z-index:100;
+    background:linear-gradient(135deg,var(--gold),var(--saffron));
+    color:#080810;font-weight:700;font-size:0.75rem;
+    padding:0.4rem 1rem;border-radius:50px;letter-spacing:1px;
+    font-family:'DM Sans',sans-serif;
+}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="mandala-bg"></div>
+<div class="design-tag">🎨 OPTION A — SACRED GOLD</div>
+
+<div class="shell">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <span class="lotus-icon">🪷</span>
+            <span class="logo-text">Krishna says</span>
+        </div>
+        <div class="streak">
+            <span style="font-size:1.3rem">🔥</span>
+            <div>
+                <div style="font-size:0.65rem;color:var(--dim);text-transform:uppercase;letter-spacing:1px">Daily Streak</div>
+                <div class="streak-num">7 Days</div>
+            </div>
+        </div>
+        <nav class="nav">
+            <div class="nav-item active"><span>💬</span> Chat</div>
+            <div class="nav-item"><span>📖</span> Verses</div>
+            <div class="nav-item"><span>⭐</span> Favorites</div>
+            <div class="nav-item"><span>💳</span> Wallet</div>
+            <div class="nav-item"><span>⚙️</span> Settings</div>
+            <div class="nav-item" style="background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(255,153,51,0.1));border:1px solid rgba(212,175,55,0.3);color:var(--gold)"><span>⚡</span> Go Premium</div>
+        </nav>
+        <div class="plan-badge">
+            <div class="plan-label">Current Plan</div>
+            <div class="plan-name">Free Seeker</div>
+        </div>
+    </aside>
+
+    <!-- Main Chat -->
+    <main class="main">
+        <div class="main-header">
+            <h1>Seek Clarity</h1>
+            <p>Ask a question about life, purpose, or action.</p>
+        </div>
+
+        <div class="verse-banner">
+            <div class="verse-label">✨ Verse of the Day</div>
+            <div class="verse-text">"Your purpose is not found — it is realized through the quality of every action you take today."</div>
+        </div>
+
+        <div class="moods">
+            <div class="chip active">Neutral</div>
+            <div class="chip">Anxious</div>
+            <div class="chip">Confused</div>
+            <div class="chip">Ambitious</div>
+            <div class="chip">Peaceful</div>
+        </div>
+
+        <div class="chat">
+            <div class="msg ai-msg">
+                <span class="label">🪷 Krishna says</span>
+                Greetings, Arjun. What guidance do you seek today? Speak freely — every question is a step toward clarity.
+                <div class="msg-actions">
+                    <span class="action">🎴 View Card</span>
+                    <span class="action">⭐ Save</span>
+                    <span class="action">🔊 Listen</span>
+                </div>
+            </div>
+            <div class="msg user-msg">I feel stressed about my career. I don't know if I'm on the right path.</div>
+            <div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        </div>
+
+        <div class="input-wrap">
+            <button class="mic-btn">🎤</button>
+            <input type="text" placeholder="Type your question or speak your heart…">
+            <button class="send-btn">Ask Wisdom</button>
+        </div>
+    </main>
+</div>
+</body>
+</html>

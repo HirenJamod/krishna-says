@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Krishna Says — Lotus Zen Design Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F7F3EE;--surface:#FFFFFF;--brown:#6B4226;--terra:#D4845A;--border:#E8DDD0;--text:#2C1810;--dim:#9B7B6B;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;height:100vh;overflow:hidden;display:flex;justify-content:center;align-items:center;}
+
+.bg-pattern{position:fixed;inset:0;z-index:0;opacity:0.04;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='25' fill='none' stroke='%236B4226' stroke-width='0.5'/%3E%3Ccircle cx='30' cy='30' r='15' fill='none' stroke='%236B4226' stroke-width='0.5'/%3E%3C/svg%3E");background-size:60px;}
+
+.shell{position:relative;z-index:1;width:92%;max-width:1100px;height:86vh;display:grid;grid-template-columns:260px 1fr;border-radius:24px;overflow:hidden;border:1px solid var(--border);box-shadow:0 20px 60px rgba(107,66,38,0.1),0 4px 16px rgba(0,0,0,0.06);}
+
+.sidebar{background:var(--surface);border-right:1px solid var(--border);padding:2rem 1.5rem;display:flex;flex-direction:column;gap:1.5rem;}
+.logo{display:flex;align-items:center;gap:0.75rem;}
+.logo-text{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--brown);letter-spacing:0.5px;}
+.divider{height:1px;background:var(--border);width:100%;}
+.streak{background:rgba(212,132,90,0.08);border:1px solid rgba(212,132,90,0.2);border-radius:14px;padding:0.8rem 1rem;display:flex;align-items:center;gap:0.75rem;}
+.streak-num{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--terra);}
+.nav{display:flex;flex-direction:column;gap:0.3rem;}
+.nav-item{padding:0.7rem 1rem;border-radius:10px;cursor:pointer;color:var(--dim);display:flex;align-items:center;gap:0.75rem;font-size:0.88rem;transition:all 0.2s;}
+.nav-item.active{background:rgba(107,66,38,0.08);color:var(--brown);font-weight:600;}
+.nav-item:hover:not(.active){background:rgba(107,66,38,0.04);}
+.premium-btn{width:100%;padding:0.85rem;background:var(--brown);color:white;border:none;border-radius:12px;font-weight:600;font-size:0.85rem;cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:0.5px;margin-top:auto;transition:all 0.2s;}
+.premium-btn:hover{background:#5a3620;}
+.plan-badge{padding:1rem;border-radius:12px;background:rgba(107,66,38,0.05);border:1px solid var(--border);}
+.plan-label{font-size:0.68rem;color:var(--dim);text-transform:uppercase;letter-spacing:1px;}
+.plan-name{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--brown);margin-top:0.15rem;font-weight:600;}
+
+.main{display:flex;flex-direction:column;padding:2rem;overflow:hidden;background:var(--bg);}
+.main-header{margin-bottom:1.25rem;}
+.main-header h1{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--brown);}
+.main-header p{font-size:0.85rem;color:var(--dim);margin-top:0.2rem;}
+
+.verse-banner{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1rem 1.25rem;margin-bottom:1.25rem;border-top:3px solid var(--terra);}
+.verse-label{font-size:0.65rem;color:var(--terra);text-transform:uppercase;letter-spacing:2px;margin-bottom:0.4rem;}
+.verse-text{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--text);font-style:italic;line-height:1.5;}
+
+.moods{display:flex;gap:0.5rem;margin-bottom:1.25rem;flex-wrap:wrap;}
+.chip{padding:0.35rem 1rem;border-radius:100px;font-size:0.78rem;cursor:pointer;border:1px solid var(--border);color:var(--dim);transition:all 0.2s;background:var(--surface);}
+.chip.active{background:var(--brown);color:white;border-color:var(--brown);}
+
+.chat{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:1rem;padding-bottom:1rem;}
+.msg{max-width:76%;padding:1rem 1.25rem;border-radius:16px;font-size:0.9rem;line-height:1.65;animation:fadeUp 0.4s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.ai-msg{align-self:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:4px 16px 16px 16px;color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,0.05);}
+.ai-msg .label{font-size:0.65rem;color:var(--terra);letter-spacing:1px;text-transform:uppercase;margin-bottom:0.5rem;display:block;}
+.user-msg{align-self:flex-end;background:var(--brown);color:white;border-radius:16px 4px 16px 16px;}
+.msg-actions{display:flex;gap:1rem;margin-top:0.75rem;}
+.action{font-size:0.72rem;color:var(--terra);cursor:pointer;}
+
+.typing{align-self:flex-start;display:flex;gap:5px;padding:1rem 1.25rem;background:var(--surface);border:1px solid var(--border);border-radius:4px 16px 16px 16px;}
+.dot{width:7px;height:7px;background:var(--terra);border-radius:50%;animation:bounce 1.2s ease-in-out infinite;}
+.dot:nth-child(2){animation-delay:0.2s}.dot:nth-child(3){animation-delay:0.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:0.4}30%{transform:translateY(-7px);opacity:1}}
+
+.input-wrap{display:flex;gap:0.75rem;margin-top:auto;background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:0.75rem 0.8rem 0.75rem 1.25rem;transition:border-color 0.3s;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+.input-wrap:focus-within{border-color:var(--terra);}
+.input-wrap input{flex:1;background:transparent;border:none;color:var(--text);font-size:0.9rem;outline:none;font-family:'DM Sans',sans-serif;}
+.input-wrap input::placeholder{color:var(--dim);}
+.send-btn{background:var(--brown);border:none;border-radius:12px;padding:0.65rem 1.4rem;color:white;font-weight:600;font-size:0.85rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+.send-btn:hover{background:#5a3620;}
+.mic-btn{background:transparent;border:1.5px solid var(--border);border-radius:50%;width:40px;height:40px;color:var(--dim);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;}
+.mic-btn:hover{border-color:var(--terra);color:var(--terra);}
+.design-tag{position:fixed;top:1rem;right:1rem;z-index:100;background:var(--brown);color:white;font-weight:700;font-size:0.75rem;padding:0.4rem 1rem;border-radius:50px;letter-spacing:1px;font-family:'DM Sans',sans-serif;}
+</style>
+</head>
+<body>
+<div class="bg-pattern"></div>
+<div class="design-tag">🌸 OPTION B — LOTUS ZEN</div>
+<div class="shell">
+    <aside class="sidebar">
+        <div class="logo"><span style="font-size:1.6rem">🪷</span><span class="logo-text">Krishna says</span></div>
+        <div class="divider"></div>
+        <div class="streak"><span style="font-size:1.2rem">🔥</span><div><div style="font-size:0.65rem;color:var(--dim);text-transform:uppercase;letter-spacing:1px">Daily Streak</div><div class="streak-num">7 Days</div></div></div>
+        <nav class="nav">
+            <div class="nav-item active"><span>💬</span> Chat</div>
+            <div class="nav-item"><span>📖</span> Verses</div>
+            <div class="nav-item"><span>⭐</span> Favorites</div>
+            <div class="nav-item"><span>💳</span> Wallet</div>
+            <div class="nav-item"><span>⚙️</span> Settings</div>
+        </nav>
+        <button class="premium-btn">⚡ Go Premium</button>
+        <div class="plan-badge"><div class="plan-label">Current Plan</div><div class="plan-name">Free Seeker</div></div>
+    </aside>
+    <main class="main">
+        <div class="main-header"><h1>Seek Clarity</h1><p>Ask a question about life, purpose, or action.</p></div>
+        <div class="verse-banner"><div class="verse-label">✨ Verse of the Day</div><div class="verse-text">"Your purpose is not found — it is realized through the quality of every action you take today."</div></div>
+        <div class="moods"><div class="chip active">Neutral</div><div class="chip">Anxious</div><div class="chip">Confused</div><div class="chip">Ambitious</div><div class="chip">Peaceful</div></div>
+        <div class="chat">
+            <div class="msg ai-msg"><span class="label">🪷 Krishna says</span>Greetings, Arjun. What guidance do you seek today? Speak freely — every question is a step toward clarity.<div class="msg-actions"><span class="action">🎴 View Card</span><span class="action">⭐ Save</span></div></div>
+            <div class="msg user-msg">I feel stressed about my career. I don't know if I'm on the right path.</div>
+            <div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        </div>
+        <div class="input-wrap"><button class="mic-btn">🎤</button><input type="text" placeholder="Type your question or speak your heart…"><button class="send-btn">Ask Wisdom</button></div>
+    </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme Gallery | Preview</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;800&family=Playfair+Display:ital,wght@0,700;1,400&family=Fira+Code&display=swap');
+
+        :root {
+            --zen-bg: #0a0a0a;
+            --zen-accent: #a1a1aa;
+            --cosmic-bg: #020617;
+            --cosmic-accent: #818cf8;
+            --cyber-bg: #0c0a09;
+            --cyber-accent: #f59e0b;
+        }
+
+        body {
+            margin: 0;
+            padding: 40px;
+            background: #111;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .preview-card {
+            width: 350px;
+            height: 500px;
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .preview-card:hover {
+            transform: scale(1.05);
+        }
+
+        /* Midnight Zen */
+        .zen {
+            background: var(--zen-bg);
+            border: 1px solid rgba(161, 161, 170, 0.2);
+            font-family: 'Playfair Display', serif;
+        }
+        .zen h2 { color: var(--zen-accent); font-size: 2.5rem; margin-bottom: 10px; }
+        .zen p { font-style: italic; color: #71717a; }
+        .zen .symbol { font-size: 3rem; color: var(--zen-accent); opacity: 0.5; margin-bottom: 20px; }
+
+        /* Celestial Voyage */
+        .cosmic {
+            background: var(--cosmic-bg);
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            background-image: radial-gradient(circle at 50% 50%, rgba(129, 140, 248, 0.1) 0%, transparent 70%);
+        }
+        .cosmic h2 { font-weight: 800; letter-spacing: 2px; color: white; text-transform: uppercase; }
+        .cosmic .stars {
+            position: absolute;
+            width: 100%; height: 100%;
+            background-image: radial-gradient(white 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.2;
+            z-index: 0;
+        }
+        .cosmic-btn {
+            background: var(--cosmic-accent);
+            padding: 10px 30px;
+            border-radius: 50px;
+            box-shadow: 0 0 20px rgba(129, 140, 248, 0.5);
+            margin-top: 20px;
+            z-index: 1;
+        }
+
+        /* Cyber-Sacred */
+        .cyber {
+            background: var(--cyber-bg);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            font-family: 'Fira Code', monospace;
+        }
+        .cyber h2 { color: var(--cyber-accent); text-shadow: 0 0 10px var(--cyber-accent); }
+        .cyber .matrix {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(transparent, transparent 2px, rgba(245, 158, 11, 0.05) 3px);
+            pointer-events: none;
+        }
+        .cyber .code { font-size: 0.7rem; color: rgba(245, 158, 11, 0.3); }
+
+        .label {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            background: #222;
+            padding: 5px 15px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+        <div class="preview-card zen">
+            <div class="symbol">🪷</div>
+            <h2>Zen</h2>
+            <p>Silence is the language of the soul.</p>
+            <div style="width: 50px; height: 1px; background: var(--zen-accent); margin-top: 20px;"></div>
+        </div>
+        <div class="label">OPTION 1: MIDNIGHT ZEN</div>
+    </div>
+
+    <div>
+        <div class="preview-card cosmic">
+            <div class="stars"></div>
+            <h2 style="z-index: 1;">Celestial</h2>
+            <p style="z-index: 1; color: #94a3b8;">Discover the Infinite.</p>
+            <div class="cosmic-btn">ASCEND</div>
+        </div>
+        <div class="label">OPTION 2: CELESTIAL VOYAGE</div>
+    </div>
+
+    <div>
+        <div class="preview-card cyber">
+            <div class="matrix"></div>
+            <div class="code">01011100 01100001 01111001</div>
+            <h2>Cyber</h2>
+            <p style="color: #a8a29e;">The Ancient. The Future.</p>
+            <div style="border: 1px solid var(--cyber-accent); padding: 5px 15px; margin-top: 10px;">PROCEED ></div>
+        </div>
+        <div class="label">OPTION 3: CYBER-SACRED</div>
+    </div>
+
+</body>
+</html>

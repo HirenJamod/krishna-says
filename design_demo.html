@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Krishna Says — Design Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;700&family=Outfit:wght@300;400;600;800&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary:#818cf8; --secondary:#c084fc; --bg:#020617;
+  --glass:rgba(15,23,42,0.5); --border:rgba(129,140,248,0.25);
+  --text:#F8FAFC; --dim:#94A3B8; --gold:#FFD700;
+}
+body.neo-vedic   { --primary:#818cf8;--secondary:#c084fc;--bg:#020617;--glass:rgba(15,23,42,0.5);--border:rgba(129,140,248,0.25);--text:#F8FAFC;--dim:#94A3B8; }
+body.sacred-amber{ --primary:#FF9933;--secondary:#FFD700;--bg:#0D0500;--glass:rgba(30,12,0,0.6);--border:rgba(255,153,51,0.35);--text:#FFF3CD;--dim:#C49A3C; }
+body.lotus-zen   { --primary:#F472B6;--secondary:#10B981;--bg:#0C1128;--glass:rgba(12,17,40,0.6);--border:rgba(244,114,182,0.3);--text:#E2E8F0;--dim:#94A3B8; }
+body.cosmic-bhakti{--primary:#F97316;--secondary:#FDE047;--bg:#09090B;--glass:rgba(9,9,11,0.7);--border:rgba(249,115,22,0.3); --text:#FAFAF9;--dim:#A8A29E; }
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Outfit',sans-serif;}
+body{background:var(--bg);color:var(--text);min-height:100vh;transition:all 0.6s ease;overflow-x:hidden;}
+
+/* BG */
+.bg{position:fixed;inset:0;z-index:0;
+  background:radial-gradient(ellipse at 20% 20%,rgba(129,140,248,0.12),transparent 50%),
+             radial-gradient(ellipse at 80% 80%,rgba(192,132,252,0.1),transparent 50%);
+  transition:all 0.8s;}
+body.sacred-amber .bg{background:radial-gradient(ellipse at 50% 0%,rgba(255,153,51,0.2),transparent 60%),radial-gradient(ellipse at 80% 90%,rgba(255,100,0,0.1),transparent 50%);}
+body.lotus-zen    .bg{background:radial-gradient(ellipse at 30% 30%,rgba(244,114,182,0.12),transparent 50%),radial-gradient(ellipse at 70% 70%,rgba(16,185,129,0.08),transparent 50%);}
+body.cosmic-bhakti .bg{background:radial-gradient(ellipse at 50% 50%,rgba(249,115,22,0.1),transparent 60%);}
+
+/* LAYOUT */
+.shell{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:2rem;}
+
+/* HEADER */
+header{text-align:center;padding:2rem 0 3rem;}
+header h1{font-family:'Cinzel',serif;font-size:clamp(1.8rem,4vw,3rem);letter-spacing:4px;
+  background:linear-gradient(to right,var(--primary),var(--secondary),var(--primary));
+  background-size:200%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  animation:shimmer 4s linear infinite;}
+@keyframes shimmer{to{background-position:200% center;}}
+header p{color:var(--dim);font-size:.9rem;letter-spacing:3px;text-transform:uppercase;margin-top:.5rem;}
+
+/* THEME SWITCHER */
+.themes{display:flex;justify-content:center;gap:.75rem;flex-wrap:wrap;margin-bottom:3rem;}
+.theme-btn{padding:.5rem 1.2rem;border-radius:50px;border:1px solid var(--border);
+  background:var(--glass);color:var(--text);font-size:.8rem;cursor:pointer;
+  transition:all .3s;letter-spacing:1px;backdrop-filter:blur(10px);}
+.theme-btn.active,.theme-btn:hover{background:var(--primary);border-color:var(--primary);color:#fff;}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+@media(max-width:700px){.grid{grid-template-columns:1fr;}}
+
+/* CARD */
+.card{background:var(--glass);border:1px solid var(--border);border-radius:24px;
+  padding:1.75rem;backdrop-filter:blur(20px);transition:all .4s;}
+.card-title{font-size:.7rem;text-transform:uppercase;letter-spacing:3px;color:var(--dim);margin-bottom:1.25rem;}
+
+/* SRI YANTRA */
+.yantra-wrap{display:flex;justify-content:center;align-items:center;height:180px;}
+.yantra{position:relative;width:160px;height:160px;}
+.yantra svg{position:absolute;inset:0;width:100%;height:100%;}
+.r1{animation:spin 20s linear infinite;}
+.r2{animation:spin 30s linear infinite reverse;}
+.r3{animation:spin 12s linear infinite;}
+.glow{animation:pulseGlow 3s ease-in-out infinite;}
+@keyframes spin{to{transform:rotate(360deg);transform-origin:80px 80px;}}
+@keyframes pulseGlow{0%,100%{opacity:.7;r:6}50%{opacity:1;r:10}}
+
+/* CHAT PREVIEW */
+.chat-preview{display:flex;flex-direction:column;gap:1rem;}
+.msg{padding:1rem 1.25rem;border-radius:18px;max-width:85%;font-size:.9rem;line-height:1.6;animation:slideUp .5s ease both;}
+@keyframes slideUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.ai-msg{align-self:flex-start;background:var(--glass);border:1px solid var(--border);border-bottom-left-radius:4px;font-family:'Cormorant Garamond',serif;font-size:1rem;}
+.user-msg{align-self:flex-end;background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;border-bottom-right-radius:4px;}
+.sanskrit{color:var(--primary);font-size:1.1rem;margin-right:.3rem;font-family:'Cormorant Garamond',serif;}
+.typing{display:flex;gap:5px;padding:.8rem 1rem;align-items:center;}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--primary);animation:bounce 1.2s ease-in-out infinite;}
+.dot:nth-child(2){animation-delay:.2s;} .dot:nth-child(3){animation-delay:.4s;}
+@keyframes bounce{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-8px);}}
+
+/* SOUND WHEEL */
+.wheel-wrap{display:flex;justify-content:center;align-items:center;height:200px;}
+.sound-wheel{position:relative;width:180px;height:180px;}
+.sound-wheel svg{width:100%;height:100%;cursor:pointer;}
+.sound-wheel .track-label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;pointer-events:none;animation:pulseLbl 2s ease-in-out infinite;}
+@keyframes pulseLbl{0%,100%{transform:scale(1);}50%{transform:scale(1.15);}}
+.seg{transition:opacity .3s;cursor:pointer;}
+.seg:hover{opacity:.8;}
+.seg.active-seg{filter:drop-shadow(0 0 8px var(--primary));}
+
+/* CHAKRA SELECTOR */
+.chakras{display:flex;flex-direction:column;gap:.75rem;}
+.chakra-row{display:flex;align-items:center;gap:1rem;padding:.75rem 1rem;border-radius:14px;
+  border:1px solid transparent;cursor:pointer;transition:all .3s;}
+.chakra-row.active{border-color:var(--border);background:var(--glass);}
+.chakra-dot{width:20px;height:20px;border-radius:50%;flex-shrink:0;box-shadow:0 0 10px currentColor;}
+.chakra-info{flex:1;}
+.chakra-info strong{font-size:.9rem;}
+.chakra-info small{color:var(--dim);font-size:.75rem;display:block;}
+
+/* FONT SHOWCASE */
+.font-demo{display:flex;flex-direction:column;gap:1rem;}
+.font-row{padding:.75rem;border-radius:12px;background:rgba(255,255,255,0.03);border:1px solid var(--border);}
+.font-row label{font-size:.65rem;text-transform:uppercase;letter-spacing:2px;color:var(--dim);}
+.serif-text{font-family:'Cormorant Garamond',serif;font-size:1.1rem;margin-top:.3rem;line-height:1.5;}
+.cinzel-text{font-family:'Cinzel',serif;font-size:.95rem;letter-spacing:2px;margin-top:.3rem;}
+.outfit-text{font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:300;margin-top:.3rem;color:var(--dim);}
+
+/* LOGIN PREVIEW */
+.login-preview{display:flex;flex-direction:column;gap:1rem;}
+.lp-header{text-align:center;}
+.lp-title{font-family:'Cinzel',serif;font-size:1.6rem;letter-spacing:3px;
+  background:linear-gradient(to right,var(--primary),var(--secondary));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.lp-sub{font-size:.7rem;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-top:.25rem;}
+.lp-input{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);
+  border-radius:10px;color:var(--text);padding:.65rem 1rem;font-size:.85rem;font-family:'Outfit',sans-serif;}
+.lp-input::placeholder{color:var(--dim);}
+.lp-btn{width:100%;padding:.9rem;border:none;border-radius:14px;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  color:#fff;font-weight:800;font-size:.95rem;cursor:pointer;letter-spacing:2px;text-transform:uppercase;
+  transition:transform .2s;}
+.lp-btn:hover{transform:scale(1.03);}
+.demo-badge{display:flex;align-items:center;gap:.5rem;padding:.5rem .8rem;
+  background:rgba(255,153,51,0.08);border:1px solid rgba(255,153,51,.25);border-radius:10px;}
+.demo-badge p{font-size:.72rem;color:rgba(255,200,100,.8);}
+
+/* SECTION LABEL */
+.section{margin:2.5rem 0 1rem;text-align:center;}
+.section h2{font-family:'Cinzel',serif;font-size:1.1rem;letter-spacing:3px;
+  color:var(--primary);text-transform:uppercase;}
+.section p{color:var(--dim);font-size:.8rem;margin-top:.35rem;}
+</style>
+</head>
+<body class="neo-vedic">
+<div class="bg"></div>
+<div class="shell">
+
+  <!-- HEADER -->
+  <header>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--primary);letter-spacing:4px;margin-bottom:.5rem;">श्री कृष्ण उवाच</div>
+    <h1>Krishna Says</h1>
+    <p>Ancient × Modern — Design Demo</p>
+  </header>
+
+  <!-- THEME SWITCHER -->
+  <div class="themes">
+    <button class="theme-btn active" onclick="setTheme('neo-vedic',this)">🔵 Neo-Vedic</button>
+    <button class="theme-btn" onclick="setTheme('sacred-amber',this)">🟠 Sacred Amber</button>
+    <button class="theme-btn" onclick="setTheme('lotus-zen',this)">🌸 Lotus Zen</button>
+    <button class="theme-btn" onclick="setTheme('cosmic-bhakti',this)">🔴 Cosmic Bhakti</button>
+  </div>
+
+  <!-- ROW 1 -->
+  <div class="grid">
+
+    <!-- SRI YANTRA -->
+    <div class="card">
+      <div class="card-title">🔯 Sri Yantra Divine Core</div>
+      <div class="yantra-wrap">
+        <div class="yantra">
+          <svg viewBox="0 0 160 160">
+            <!-- Outer circle -->
+            <circle cx="80" cy="80" r="75" fill="none" stroke="rgba(129,140,248,0.3)" stroke-width="1"/>
+            <!-- Rotating petals ring -->
+            <g class="r1">
+              <polygon points="80,15 95,55 60,55" fill="none" stroke="rgba(129,140,248,0.7)" stroke-width="1.2"/>
+              <polygon points="80,145 65,105 100,105" fill="none" stroke="rgba(129,140,248,0.7)" stroke-width="1.2"/>
+              <polygon points="15,80 55,65 55,95" fill="none" stroke="rgba(192,132,252,0.6)" stroke-width="1.2"/>
+              <polygon points="145,80 105,95 105,65" fill="none" stroke="rgba(192,132,252,0.6)" stroke-width="1.2"/>
+            </g>
+            <!-- Mid ring -->
+            <g class="r2">
+              <polygon points="80,28 107,72 53,72" fill="none" stroke="rgba(255,215,0,0.5)" stroke-width="1"/>
+              <polygon points="80,132 53,88 107,88" fill="none" stroke="rgba(255,215,0,0.5)" stroke-width="1"/>
+            </g>
+            <!-- Inner ring -->
+            <g class="r3">
+              <rect x="55" y="55" width="50" height="50" fill="none" stroke="rgba(129,140,248,0.6)" stroke-width="1" transform="rotate(45 80 80)"/>
+              <rect x="60" y="60" width="40" height="40" fill="none" stroke="rgba(192,132,252,0.5)" stroke-width="1"/>
+            </g>
+            <!-- Core glow -->
+            <circle cx="80" cy="80" r="8" fill="rgba(129,140,248,0.6)" class="glow"/>
+            <circle cx="80" cy="80" r="4" fill="#fff"/>
+          </svg>
+        </div>
+      </div>
+      <p style="text-align:center;font-size:.75rem;color:var(--dim);font-family:'Cormorant Garamond',serif;letter-spacing:2px;">ॐ — Sacred Geometry Replaces Plain Circles</p>
+    </div>
+
+    <!-- CHAT PREVIEW -->
+    <div class="card">
+      <div class="card-title">💬 Chat — Cormorant Serif AI Responses</div>
+      <div class="chat-preview">
+        <div class="msg user-msg">How do I find peace in chaos?</div>
+        <div class="msg ai-msg">
+          <span class="sanskrit">॥</span>
+          Equanimity is not the absence of storms, dear seeker — it is the stillness found at their centre. As the lotus rises from mud unblemished, so your awareness can remain untouched by the turbulence of circumstance.
+          <span class="sanskrit">॥</span>
+        </div>
+        <div class="msg ai-msg typing" style="border-radius:18px;border-bottom-left-radius:4px;">
+          <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ROW 2 -->
+  <div class="section"><h2>Sound & Depth</h2><p>Radial sound wheel + Chakra depth selector</p></div>
+  <div class="grid">
+
+    <!-- SOUND WHEEL -->
+    <div class="card">
+      <div class="card-title">🎵 Radial Sound Selector</div>
+      <div class="wheel-wrap">
+        <div class="sound-wheel">
+          <svg viewBox="0 0 180 180" id="wheel">
+            <!-- Segments -->
+            <path id="s1" class="seg active-seg" d="M90,90 L90,15 A75,75 0 0,1 155,52 Z" fill="rgba(129,140,248,0.25)" stroke="rgba(129,140,248,0.4)" stroke-width="1" onclick="selectTrack(this,'🪈','Flute')"/>
+            <path id="s2" class="seg" d="M90,90 L155,52 A75,75 0 0,1 165,128 Z" fill="rgba(192,132,252,0.15)" stroke="rgba(192,132,252,0.3)" stroke-width="1" onclick="selectTrack(this,'🍃','Nature')"/>
+            <path id="s3" class="seg" d="M90,90 L165,128 A75,75 0 0,1 90,165 Z" fill="rgba(255,153,51,0.15)" stroke="rgba(255,153,51,0.3)" stroke-width="1" onclick="selectTrack(this,'🕉️','Chants')"/>
+            <path id="s4" class="seg" d="M90,90 L90,165 A75,75 0 0,1 15,128 Z" fill="rgba(248,113,113,0.15)" stroke="rgba(248,113,113,0.3)" stroke-width="1" onclick="selectTrack(this,'🥁','Tabla')"/>
+            <path id="s5" class="seg" d="M90,90 L15,128 A75,75 0 0,1 25,52 Z" fill="rgba(74,222,128,0.15)" stroke="rgba(74,222,128,0.3)" stroke-width="1" onclick="selectTrack(this,'🎶','Sitar')"/>
+            <path id="s6" class="seg" d="M90,90 L25,52 A75,75 0 0,1 90,15 Z" fill="rgba(253,224,71,0.15)" stroke="rgba(253,224,71,0.3)" stroke-width="1" onclick="selectTrack(this,'🔔','Bells')"/>
+            <!-- Labels -->
+            <text x="112" y="42"  text-anchor="middle" font-size="16" style="pointer-events:none">🪈</text>
+            <text x="148" y="100" text-anchor="middle" font-size="16" style="pointer-events:none">🍃</text>
+            <text x="130" y="150" text-anchor="middle" font-size="16" style="pointer-events:none">🕉️</text>
+            <text x="55" y="155"  text-anchor="middle" font-size="16" style="pointer-events:none">🥁</text>
+            <text x="30" y="100"  text-anchor="middle" font-size="16" style="pointer-events:none">🎶</text>
+            <text x="52" y="44"   text-anchor="middle" font-size="16" style="pointer-events:none">🔔</text>
+            <!-- Center -->
+            <circle cx="90" cy="90" r="28" fill="var(--glass)" stroke="var(--border)" stroke-width="1.5"/>
+          </svg>
+          <div class="track-label" id="trackLabel">🪈</div>
+        </div>
+      </div>
+      <p style="text-align:center;font-size:.8rem;color:var(--dim);margin-top:.5rem;" id="trackName">Flute — Playing</p>
+    </div>
+
+    <!-- CHAKRA SELECTOR -->
+    <div class="card">
+      <div class="card-title">⚡ Chakra Depth Selector</div>
+      <div class="chakras">
+        <div class="chakra-row active" onclick="selectChakra(this)">
+          <div class="chakra-dot" style="background:#EF4444;color:#EF4444;"></div>
+          <div class="chakra-info">
+            <strong>Muladhara — Practical</strong>
+            <small>Grounded, actionable, real-world answers</small>
+          </div>
+          <span style="font-size:1.2rem;">🟥</span>
+        </div>
+        <div class="chakra-row" onclick="selectChakra(this)">
+          <div class="chakra-dot" style="background:#10B981;color:#10B981;"></div>
+          <div class="chakra-info">
+            <strong>Anahata — Philosophical</strong>
+            <small>Heart-centred, reflective, balanced</small>
+          </div>
+          <span style="font-size:1.2rem;">💚</span>
+        </div>
+        <div class="chakra-row" onclick="selectChakra(this)">
+          <div class="chakra-dot" style="background:#8B5CF6;color:#8B5CF6;"></div>
+          <div class="chakra-info">
+            <strong>Sahasrara — Deep</strong>
+            <small>Mystical, transcendent, Vedic wisdom</small>
+          </div>
+          <span style="font-size:1.2rem;">🟣</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ROW 3 -->
+  <div class="section"><h2>Typography & Login</h2><p>Font pairing + redesigned onboarding card</p></div>
+  <div class="grid">
+
+    <!-- TYPOGRAPHY -->
+    <div class="card">
+      <div class="card-title">✍️ Font Pairing Showcase</div>
+      <div class="font-demo">
+        <div class="font-row">
+          <label>Cinzel — Headings / Sacred Titles</label>
+          <div class="cinzel-text">KRISHNA SAYS</div>
+        </div>
+        <div class="font-row">
+          <label>Cormorant Garamond — AI Wisdom Responses</label>
+          <div class="serif-text">॥ The soul is neither born, nor does it ever die. ॥</div>
+        </div>
+        <div class="font-row">
+          <label>Outfit Light — UI Labels & Body Text</label>
+          <div class="outfit-text">Ask a question about life, purpose, or action.</div>
+        </div>
+        <div class="font-row">
+          <label>Devanagari Accent Layer</label>
+          <div style="font-size:1.4rem;margin-top:.3rem;letter-spacing:8px;color:var(--primary);">ॐ श्री कृष्ण</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOGIN PREVIEW -->
+    <div class="card">
+      <div class="card-title">🚪 Login Card — "Sacred Gate"</div>
+      <div class="login-preview">
+        <div class="lp-header">
+          <div style="font-size:1.8rem;margin-bottom:.5rem;">🕉️</div>
+          <div class="lp-title">Vibe Check</div>
+          <div class="lp-sub">Unlock your main character energy</div>
+        </div>
+        <input class="lp-input" type="text" placeholder="What name shall the universe know you by?">
+        <input class="lp-input" type="email" placeholder="Your digital address (optional)">
+        <div style="display:flex;gap:.75rem;align-items:center;">
+          <div style="flex:1;height:1px;background:var(--border);"></div>
+          <span style="font-size:.7rem;color:var(--dim);">Choose your depth</span>
+          <div style="flex:1;height:1px;background:var(--border);"></div>
+        </div>
+        <div style="display:flex;gap:.5rem;">
+          <button style="flex:1;padding:.5rem;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);border-radius:10px;color:#EF4444;font-size:.75rem;cursor:pointer;">🟥 Practical</button>
+          <button style="flex:1;padding:.5rem;background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.4);border-radius:10px;color:#10B981;font-size:.75rem;cursor:pointer;">💚 Philosophical</button>
+          <button style="flex:1;padding:.5rem;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.4);border-radius:10px;color:#8B5CF6;font-size:.75rem;cursor:pointer;">🟣 Deep</button>
+        </div>
+        <div class="demo-badge">
+          <span>🧪</span>
+          <p><strong style="color:#FF9933;">Demo Mode</strong> — Phone auth paused. Enter name & tap Ascend.</p>
+        </div>
+        <button class="lp-btn">🪷 Ascend 🪷</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM NOTE -->
+  <div style="text-align:center;padding:3rem 0 2rem;color:var(--dim);font-size:.8rem;letter-spacing:1px;">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--primary);margin-bottom:.5rem;">
+      ॥ यदा यदा हि धर्मस्य... ॥
+    </div>
+    Switch themes above · Click the sound wheel · Select a chakra depth
+  </div>
+
+</div>
+
+<script>
+function setTheme(cls, btn) {
+  document.body.className = cls;
+  document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function selectTrack(el, emoji, name) {
+  document.querySelectorAll('.seg').forEach(s => s.classList.remove('active-seg'));
+  el.classList.add('active-seg');
+  document.getElementById('trackLabel').textContent = emoji;
+  document.getElementById('trackName').textContent = name + ' — Playing';
+}
+
+function selectChakra(el) {
+  document.querySelectorAll('.chakra-row').forEach(r => r.classList.remove('active'));
+  el.classList.add('active');
+}
+</script>
+</body>
+</html>

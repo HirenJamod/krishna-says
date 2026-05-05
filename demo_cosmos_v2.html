@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Krishna Says — Deep Cosmos v2 Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#020410;--primary:#7C6FF7;--secondary:#E879F9;--cyan:#06B6D4;--surface:rgba(124,111,247,0.06);--border:rgba(124,111,247,0.2);--text:#F8FAFC;--dim:#94A3B8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;height:100vh;overflow:hidden;display:flex;justify-content:center;align-items:center;}
+
+/* Animated nebula layers */
+.nebula{position:fixed;inset:0;z-index:0;}
+.nebula::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 15% 40%,rgba(124,111,247,0.12) 0%,transparent 55%),radial-gradient(ellipse 50% 70% at 85% 20%,rgba(232,121,249,0.1) 0%,transparent 55%),radial-gradient(ellipse 60% 50% at 50% 90%,rgba(6,182,212,0.07) 0%,transparent 55%);animation:nebulaPulse 8s ease-in-out infinite alternate;}
+@keyframes nebulaPulse{0%{opacity:0.8}100%{opacity:1}}
+
+/* Stars */
+.stars{position:fixed;inset:0;z-index:0;}
+.stars::before,.stars::after{content:'';position:absolute;inset:0;background-image:radial-gradient(1px 1px at 20% 30%,white,transparent),radial-gradient(1px 1px at 60% 10%,white,transparent),radial-gradient(1px 1px at 80% 60%,white,transparent),radial-gradient(1px 1px at 10% 80%,white,transparent),radial-gradient(1px 1px at 40% 70%,white,transparent),radial-gradient(1.5px 1.5px at 70% 40%,white,transparent),radial-gradient(1px 1px at 90% 85%,white,transparent),radial-gradient(1px 1px at 30% 50%,white,transparent);background-size:400px 400px;animation:starDrift 20s linear infinite;opacity:0.4;}
+.stars::after{background-size:600px 600px;animation-duration:30s;animation-direction:reverse;opacity:0.2;}
+@keyframes starDrift{from{transform:translateY(0)}to{transform:translateY(-400px)}}
+
+.shell{position:relative;z-index:1;width:92%;max-width:1100px;height:86vh;display:grid;grid-template-columns:260px 1fr;border-radius:28px;overflow:hidden;border:1px solid var(--border);box-shadow:0 0 100px rgba(124,111,247,0.15),0 40px 80px rgba(0,0,0,0.7);background:rgba(2,4,16,0.85);backdrop-filter:blur(30px);}
+
+/* Iridescent sidebar border */
+.sidebar{border-right:1px solid transparent;background:linear-gradient(rgba(2,4,16,0.9),rgba(2,4,16,0.9)) padding-box,linear-gradient(180deg,var(--primary),var(--secondary),var(--cyan)) border-box;padding:2rem 1.5rem;display:flex;flex-direction:column;gap:1.5rem;}
+
+.logo{font-size:1.4rem;font-weight:800;background:linear-gradient(90deg,var(--primary),var(--secondary));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+
+/* Animated core */
+.core{position:relative;width:80px;height:80px;display:flex;justify-content:center;align-items:center;margin:0 auto;filter:drop-shadow(0 0 15px rgba(124,111,247,0.6));}
+.ring{position:absolute;inset:0;border:1px solid rgba(124,111,247,0.6);border-radius:35%;animation:spin 15s linear infinite;}
+.ring:nth-child(2){border-color:rgba(232,121,249,0.5);border-radius:40%;animation-duration:22s;animation-direction:reverse;}
+.ring:nth-child(3){inset:15%;border-color:rgba(6,182,212,0.5);border-radius:30%;animation-duration:10s;}
+.core-dot{width:10px;height:10px;background:#fff;border-radius:50%;box-shadow:0 0 20px 8px rgba(124,111,247,0.8);animation:corePulse 3s ease-in-out infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes corePulse{0%,100%{transform:scale(1);opacity:0.8}50%{transform:scale(1.5);opacity:1;box-shadow:0 0 30px 12px rgba(232,121,249,0.8)}}
+
+.streak{background:rgba(124,111,247,0.08);border:1px solid var(--border);border-radius:14px;padding:0.8rem 1rem;display:flex;align-items:center;gap:0.75rem;}
+.streak-num{font-size:1.2rem;font-weight:800;color:white;}
+
+.nav{display:flex;flex-direction:column;gap:0.4rem;}
+.nav-item{padding:0.7rem 1rem;border-radius:12px;cursor:pointer;color:var(--dim);display:flex;align-items:center;gap:0.75rem;font-size:0.9rem;transition:all 0.25s;}
+.nav-item.active{background:rgba(124,111,247,0.15);color:white;border-left:2px solid var(--primary);}
+.nav-item:hover:not(.active){background:rgba(255,255,255,0.04);}
+
+.plan-badge{margin-top:auto;padding:1rem;border-radius:14px;background:var(--surface);border:1px solid var(--border);}
+
+.main{display:flex;flex-direction:column;padding:2rem;overflow:hidden;}
+.main-header{margin-bottom:1.25rem;}
+.main-header h1{font-size:1.6rem;font-weight:800;}
+.main-header p{font-size:0.85rem;color:var(--dim);margin-top:0.2rem;}
+
+/* Aurora verse banner */
+.verse-banner{background:linear-gradient(90deg,rgba(124,111,247,0.1),rgba(232,121,249,0.06),rgba(6,182,212,0.08));border:1px solid rgba(124,111,247,0.25);border-radius:16px;padding:1rem 1.25rem;margin-bottom:1.25rem;position:relative;overflow:hidden;}
+.verse-banner::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.03),transparent);animation:shimmer 3s linear infinite;}
+@keyframes shimmer{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.verse-label{font-size:0.65rem;color:var(--primary);text-transform:uppercase;letter-spacing:2px;margin-bottom:0.4rem;}
+
+.moods{display:flex;gap:0.6rem;margin-bottom:1.25rem;flex-wrap:wrap;}
+.chip{padding:0.35rem 1rem;border-radius:100px;font-size:0.78rem;cursor:pointer;border:1px solid var(--border);color:var(--dim);transition:all 0.2s;background:transparent;}
+.chip.active{background:linear-gradient(135deg,var(--primary),var(--secondary));color:white;border-color:transparent;}
+
+.chat{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:1.2rem;padding-bottom:1rem;}
+.msg{max-width:78%;padding:1rem 1.25rem;border-radius:18px;font-size:0.92rem;line-height:1.65;animation:fadeUp 0.5s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* Aurora AI bubble */
+.ai-msg{align-self:flex-start;background:linear-gradient(135deg,rgba(124,111,247,0.12),rgba(6,182,212,0.06));border:1px solid rgba(124,111,247,0.2);border-radius:4px 18px 18px 18px;color:var(--text);}
+.ai-msg .label{font-size:0.65rem;color:var(--cyan);letter-spacing:1px;text-transform:uppercase;margin-bottom:0.5rem;display:block;}
+
+.user-msg{align-self:flex-end;background:linear-gradient(135deg,var(--primary),var(--secondary));color:white;border-radius:18px 4px 18px 18px;}
+.msg-actions{display:flex;gap:1rem;margin-top:0.75rem;}
+.action{font-size:0.72rem;color:var(--cyan);cursor:pointer;opacity:0.8;}
+
+.typing{align-self:flex-start;display:flex;gap:5px;padding:1rem 1.25rem;background:rgba(124,111,247,0.08);border:1px solid rgba(124,111,247,0.2);border-radius:4px 18px 18px 18px;}
+.dot{width:7px;height:7px;background:var(--primary);border-radius:50%;animation:bounce 1.2s ease-in-out infinite;}
+.dot:nth-child(2){animation-delay:0.2s;background:var(--secondary);}
+.dot:nth-child(3){animation-delay:0.4s;background:var(--cyan);}
+@keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:0.4}30%{transform:translateY(-7px);opacity:1}}
+
+.input-wrap{display:flex;gap:0.75rem;margin-top:auto;background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:50px;padding:0.6rem 0.8rem 0.6rem 1.25rem;transition:all 0.3s;}
+.input-wrap:focus-within{border-color:var(--primary);box-shadow:0 0 25px rgba(124,111,247,0.15);}
+.input-wrap input{flex:1;background:transparent;border:none;color:white;font-size:0.92rem;outline:none;font-family:'Outfit',sans-serif;}
+.input-wrap input::placeholder{color:var(--dim);}
+.send-btn{background:linear-gradient(135deg,var(--primary),var(--secondary));border:none;border-radius:50px;padding:0.6rem 1.4rem;color:white;font-weight:700;font-size:0.85rem;cursor:pointer;font-family:'Outfit',sans-serif;letter-spacing:0.5px;transition:all 0.2s;box-shadow:0 4px 15px rgba(124,111,247,0.3);}
+.send-btn:hover{transform:scale(1.05);}
+.mic-btn{background:transparent;border:1px solid var(--border);border-radius:50%;width:40px;height:40px;color:var(--dim);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;}
+.mic-btn:hover{border-color:var(--cyan);color:var(--cyan);}
+.design-tag{position:fixed;top:1rem;right:1rem;z-index:100;background:linear-gradient(135deg,var(--primary),var(--secondary));color:white;font-weight:700;font-size:0.75rem;padding:0.4rem 1rem;border-radius:50px;letter-spacing:1px;font-family:'Outfit',sans-serif;}
+</style>
+</head>
+<body>
+<div class="nebula"></div>
+<div class="stars"></div>
+<div class="design-tag">🌌 OPTION C — DEEP COSMOS v2</div>
+<div class="shell">
+    <aside class="sidebar">
+        <div class="logo">Krishna says</div>
+        <div class="core"><div class="ring"></div><div class="ring"></div><div class="ring"></div><div class="core-dot"></div></div>
+        <div class="streak"><span style="font-size:1.2rem">🔥</span><div><div style="font-size:0.65rem;color:var(--dim);text-transform:uppercase;letter-spacing:1px">Daily Streak</div><div class="streak-num">7 Days</div></div></div>
+        <nav class="nav">
+            <div class="nav-item active"><span>💬</span> Chat</div>
+            <div class="nav-item"><span>📖</span> Verses</div>
+            <div class="nav-item"><span>⭐</span> Favorites</div>
+            <div class="nav-item"><span>💳</span> Wallet</div>
+            <div class="nav-item" style="background:linear-gradient(135deg,rgba(124,111,247,0.2),rgba(232,121,249,0.1));border:1px solid rgba(124,111,247,0.3);color:white;"><span>⚡</span> Go Premium</div>
+        </nav>
+        <div class="plan-badge"><p style="font-size:0.7rem;color:var(--dim)">Current Plan</p><p style="font-weight:600;margin-top:0.2rem">Free Seeker</p></div>
+    </aside>
+    <main class="main">
+        <div class="main-header"><h1>Seek Clarity ✨</h1><p style="color:var(--dim)">Ask a question about life, purpose, or action.</p></div>
+        <div class="verse-banner"><div class="verse-label">✨ Verse of the Day</div><p style="font-size:0.95rem;line-height:1.6">"Your purpose is not found — it is realized through the quality of every action you take today."</p></div>
+        <div class="moods"><div class="chip active">Neutral</div><div class="chip">Anxious</div><div class="chip">Confused</div><div class="chip">Ambitious</div><div class="chip">Peaceful</div></div>
+        <div class="chat">
+            <div class="msg ai-msg"><span class="label">🔮 Krishna says</span>Greetings, Arjun. What guidance do you seek today? Speak freely — every question is a step toward clarity.<div class="msg-actions"><span class="action">🎴 View Card</span><span class="action">⭐ Save</span></div></div>
+            <div class="msg user-msg">I feel stressed about my career. I don't know if I'm on the right path.</div>
+            <div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        </div>
+        <div class="input-wrap"><button class="mic-btn">🎤</button><input type="text" placeholder="Type your question or speak your heart…"><button class="send-btn">Ask Wisdom</button></div>
+    </main>
+</div>
+</body>
+</html>

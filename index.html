@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Krishna says | Modern Spiritual Guidance</title>
+    <meta name="description" content="AI-powered spiritual guidance inspired by timeless wisdom. Get answers based on universal principles.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,700;1,400&family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=v_final_res">
+    <style>
+        :root {
+            --primary: #D4AF37; /* Soft Gold */
+            --secondary: #FFB7C5; /* Lotus Pink */
+            --accent: #FFFFFF; /* Pure Light */
+            --bg-dark: #F5F5F7; /* Morning Mist */
+            --glass: rgba(255, 255, 255, 0.45); /* Frosted Glass */
+            --glass-border: rgba(212, 175, 55, 0.3); /* Golden Silk Border */
+            --text-main: #2D3436;
+            --text-dim: #636E72;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+        body { 
+            background-color: var(--bg-dark); color: var(--text-main); 
+            min-height: 100vh; display: flex; justify-content: center; align-items: center;
+            overflow: hidden;
+        }
+        .bg-mesh {
+            position: fixed; inset: 0; z-index: -1;
+            background: radial-gradient(circle at center, rgba(255, 183, 197, 0.2) 0%, rgba(245, 245, 247, 0.98) 100%);
+        }
+        .modal-overlay {
+            position: fixed; inset: 0; z-index: 10000;
+            display: none; justify-content: center; align-items: center;
+            background: rgba(245, 245, 247, 0.8); backdrop-filter: blur(40px);
+        }
+        .modal-overlay.active { display: flex; }
+        .subscription-card {
+            background: white; border: 1px solid var(--glass-border);
+            border-radius: 40px; padding: 3rem 2rem; width: 90%; max-width: 450px;
+            text-align: center; box-shadow: 0 40px 100px rgba(0,0,0,0.1);
+        }
+        .sri-yantra { width: 120px; height: 120px; margin-bottom: 1rem; }
+        .glass-input {
+            width: 100%; padding: 0.8rem; margin-bottom: 0.8rem;
+            border: 1px solid var(--glass-border); border-radius: 12px;
+        }
+        .subscribe-btn {
+            width: 100%; padding: 1rem; border-radius: 16px; border: none;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white; font-weight: 700; cursor: pointer;
+        }
+        /* Mobile adjustment */
+        @media (max-width: 600px) {
+            .subscription-card { padding: 2rem 1.5rem; }
+        }
+    </style>
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#FF9933">
+    <!-- Firebase Auth & Razorpay scripts removed while paused (see js/otpAgent.js & js/razorpayAgent.js for demo mocks) -->
+</head>
+<body class="login-pending">
+    <div class="bg-mesh"></div>
+
+    <div class="starfield" id="starfield"></div>
+
+    <div class="modal-overlay active" id="loginModal">
+        <div class="subscription-card login-card" style="max-width: 460px;">
+            <div class="login-sanskrit">श्री कृष्ण उवाच</div>
+            <h2 class="gold-gradient-text login-title" id="loginThemeTitle" style="color: var(--primary);">Divine Wisdom</h2>
+            <p class="login-subtitle" id="loginThemeSubtitle" style="color: var(--text-dim);">Seek guidance from the timeless consciousness...</p>
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <div style="display:flex; gap: 0.5rem;">
+                    <input type="text" id="authContact" placeholder="Email or Mobile" class="glass-input">
+                    <button class="send-btn" id="clientSendOtpBtn" onclick="clientSendOtp()" style="position:relative; z-index:10005; padding:0.75rem 1.25rem; font-size:0.8rem; border-radius:12px; background:rgba(212,175,55,0.15); border:1px solid var(--primary); color:var(--text-main); cursor:pointer; min-width:115px;">Continue</button>
+                </div>
+                <div id="otpWrapper" style="display:none; flex-direction:column; gap:0.5rem;">
+                    <input type="text" id="authOtpInput" placeholder="Enter 6-digit OTP" class="glass-input">
+                </div>
+
+                <div id="signupFields" class="signup-reveal" style="display:none; flex-direction: column; gap: 0.75rem;">
+                    <input type="text" id="userName" placeholder="What name shall the universe know you by?" class="glass-input">
+                    <div class="preference-group" style="margin-top:0.5rem;text-align:left;">
+                        <label style="font-size:.75rem;color:var(--text-dim);letter-spacing:2px;text-transform:uppercase;">Language</label>
+                        <select id="langPref" class="glass-input" style="margin-top:.5rem;">
+                            <option value="en">English</option>
+                            <option value="hi">हिन्दी</option>
+                            <option value="gu">ગુજરાતી</option>
+                        </select>
+                        <label style="font-size:.75rem;color:var(--text-dim);letter-spacing:2px;text-transform:uppercase;margin-top:1rem;display:block;">Spiritual Depth</label>
+                        <div class="chakra-depth-selector">
+                            <button class="chakra-btn depth-btn active" data-depth="practical">
+                                <span class="chakra-dot" style="background:#EF4444;box-shadow:0 0 8px #EF4444;"></span>
+                                <span class="chakra-label">🟥 Practical</span>
+                                <small>Grounded answers</small>
+                            </button>
+                            <button class="chakra-btn depth-btn" data-depth="philosophical">
+                                <span class="chakra-dot" style="background:#10B981;box-shadow:0 0 8px #10B981;"></span>
+                                <span class="chakra-label">💚 Philosophical</span>
+                                <small>Heart-centred</small>
+                            </button>
+                            <button class="chakra-btn depth-btn" data-depth="deep">
+                                <span class="chakra-dot" style="background:#8B5CF6;box-shadow:0 0 8px #8B5CF6;"></span>
+                                <span class="chakra-label">🟣 Deep Vedic</span>
+                                <small>Transcendent</small>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="demo-mode-badge">
+                <span>🪄</span>
+                <p><strong style="color: var(--primary);">Divine Mode</strong> — Enter your name and tap Ascend.</p>
+            </div>
+            <button class="subscribe-btn login-ascend-btn" id="startJourneyBtn">✨ Ascend ✨</button>
+            <div style="margin-top:1rem;padding:1.25rem;background:rgba(212,175,55,0.03);border-radius:16px;border:1px solid var(--glass-border);text-align:left;">
+                <p class="disclaimer-text" style="font-weight:700;margin-bottom:.5rem;color:var(--text-main);font-size:0.85rem;">Sacred Intention</p>
+                <p class="disclaimer-text" style="font-size:0.75rem;line-height:1.5;">This mirror reflects timeless philosophy for self-awareness. It is not a substitute for professional counsel.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="app-shell" id="appShell">
+        <aside class="sidebar">
+            <!-- Sri Yantra Divine Core -->
+            <div class="divine-core-container">
+                <svg class="sri-yantra" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="80" cy="80" r="75" fill="none" stroke="rgba(212,175,55,0.2)" stroke-width="1"/>
+                    <g class="yantra-r1">
+                        <polygon points="80,12 100,58 60,58" fill="none" stroke="rgba(212,175,55,0.75)" stroke-width="1.2"/>
+                        <polygon points="80,148 60,102 100,102" fill="none" stroke="rgba(212,175,55,0.75)" stroke-width="1.2"/>
+                        <polygon points="12,80 58,60 58,100" fill="none" stroke="rgba(255,183,197,0.6)" stroke-width="1.2"/>
+                        <polygon points="148,80 102,100 102,60" fill="none" stroke="rgba(255,183,197,0.6)" stroke-width="1.2"/>
+                    </g>
+                    <g class="yantra-r2">
+                        <polygon points="80,30 108,74 52,74" fill="none" stroke="rgba(255,183,197,0.45)" stroke-width="1"/>
+                        <polygon points="80,130 52,86 108,86" fill="none" stroke="rgba(255,183,197,0.45)" stroke-width="1"/>
+                    </g>
+                    <g class="yantra-r3">
+                        <rect x="55" y="55" width="50" height="50" fill="none" stroke="rgba(212,175,55,0.55)" stroke-width="1" transform="rotate(45 80 80)"/>
+                        <rect x="62" y="62" width="36" height="36" fill="none" stroke="rgba(255,183,197,0.4)" stroke-width="1"/>
+                    </g>
+                    <circle class="yantra-core" cx="80" cy="80" r="8" fill="rgba(212,175,55,0.6)"/>
+                    <circle cx="80" cy="80" r="3.5" fill="rgba(255, 183, 197, 0.8)"/>
+                </svg>
+            </div>
+            <div class="logo">Krishna says</div>
+            
+            <div class="streak-badge" id="streakBadge" style="margin: 0.75rem 0; padding: 0.6rem; background: rgba(212, 175, 55, 0.1); border: 1px solid var(--primary); border-radius: 12px; display: flex; align-items: center; gap: 0.5rem;">
+                <span style="font-size: 1.2rem;">🔥</span>
+                <div style="text-align: left;">
+                    <p style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase;">Daily Streak</p>
+                    <p style="font-size: 1rem; font-weight: 800; color: white;"><span id="streakCount">1</span> Days</p>
+                </div>
+            </div>
+            
+            <nav>
+                <ul class="nav-links">
+                    <li class="nav-item active" data-view="chat">
+                        <span>💬</span> Chat
+                    </li>
+                    <li class="nav-item" data-view="verses">
+                        <span>📖</span> Verses
+                    </li>
+                    <li class="nav-item" data-view="favorites">
+                        <span>⭐</span> Favorites
+                    </li>
+                    <li class="nav-item" id="settingsBtn">
+                        <span>⚙️</span> Settings
+                    </li>
+                    <li class="nav-item" id="goProBtn">
+                        <span>⚡</span> Go Premium
+                    </li>
+                    <li class="nav-item" data-view="wallet">
+                        <span>💳</span> Wallet
+                    </li>
+                    <li class="nav-item" id="clientLogoutBtn" style="color: #ef4444; border-top: 1px solid var(--glass-border); margin-top: 0.5rem; padding-top: 0.75rem;">
+                        <span>🚪</span> Logout
+                    </li>
+                </ul>
+            </nav>
+
+            <div style="margin-top: auto; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 16px; border: 1px solid var(--glass-border);">
+                <p style="font-size: 0.8rem; color: var(--text-dim);">Current Plan</p>
+                <p style="font-weight: 600;">Free Seeker</p>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <!-- Chat View -->
+            <section id="chatView" class="view-section active">
+                <div style="display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 2rem;">
+                    <div style="flex: 1;">
+                        <h1 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Seek Clarity</h1>
+                        <p style="color: var(--text-dim); font-size: 0.9rem;">Ask a question about life, purpose, or action.</p>
+                    </div>
+                    <div style="display: flex; gap: 0.75rem; align-items: center;">
+                        <select id="soundSelector" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-dim); border-radius: 8px; font-size: 0.75rem; padding: 0.25rem 0.5rem; cursor: pointer; outline: none;">
+                            <option value="none">🔇 No Sound</option>
+                            <option value="flute">🪈 Flute</option>
+                            <option value="nature">🍃 Nature</option>
+                            <option value="chants">🕉️ Chants</option>
+                        </select>
+                        <div id="templeToggle" style="cursor: pointer; padding: 0.5rem 1rem; border-radius: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); font-size: 0.8rem; color: var(--text-dim); transition: all 0.3s;">
+                            🪔 Holo-Temple
+                        </div>
+                        <div id="voiceToggle" style="cursor: pointer; padding: 0.5rem; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); transition: all 0.3s;">
+                            <span id="voiceIcon">🔇</span>
+                        </div>
+                        <div id="headerLogoutBtn" style="cursor: pointer; padding: 0.5rem; border-radius: 50%; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #ef4444; transition: all 0.3s;" title="Logout">
+                            <span>🚪</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mood-selector" style="display: flex; gap: 0.75rem; margin-bottom: 2rem; overflow-x: auto; padding-bottom: 0.5rem;">
+                    <div class="mood-chip active" data-mood="neutral">Neutral</div>
+                    <div class="mood-chip" data-mood="anxious">Anxious</div>
+                    <div class="mood-chip" data-mood="confused">Confused</div>
+                    <div class="mood-chip" data-mood="ambitious">Ambitious</div>
+                    <div class="mood-chip" data-mood="peaceful">Peaceful</div>
+                </div>
+
+                <!-- Verse of the Day Widget -->
+                <div id="dailyVerse" class="verse-card" style="margin-bottom: 2rem; background: linear-gradient(to right, rgba(255, 153, 51, 0.1), rgba(99, 102, 241, 0.1)); border-color: var(--primary); display: none;">
+                    <p style="font-size: 0.75rem; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;">✨ Verse of the Day</p>
+                    <h3 id="dailyVerseTitle" style="margin-bottom: 0.5rem; color: white;">Finding Peace</h3>
+                    <p id="dailyVerseText" style="font-style: italic; color: var(--text-main);"></p>
+                </div>
+
+                <div class="chat-history" id="chatHistory">
+                    <div class="message ai-message">
+                        Greetings, seeker. What guidance do you search for today?
+                    </div>
+                </div>
+
+                <div class="input-area">
+                    <button id="micBtn" style="background: transparent; border: none; font-size: 1.2rem; cursor: pointer; padding: 0 0.5rem; transition: transform 0.2s;">🎤</button>
+                    <input type="text" id="userInput" placeholder="Type your question or speak..." autocomplete="off">
+                    <button class="send-btn" id="sendBtn">Ask Wisdom</button>
+                </div>
+                <p class="disclaimer-text" style="text-align: center; margin-top: 1rem;">This response is for reflection only, not professional or religious instruction.</p>
+            </section>
+
+            <!-- Verses Library View -->
+            <section id="versesView" class="view-section">
+                <header style="margin-bottom: 2rem;">
+                    <h1 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Verses Library</h1>
+                    <p style="color: var(--text-dim); font-size: 0.9rem;">Browse timeless wisdom by topic.</p>
+                </header>
+                <div class="search-bar" style="margin-bottom: 2rem;">
+                    <input type="text" id="verseSearch" placeholder="Search topics (e.g., stress, anger, purpose)..." class="glass-input">
+                </div>
+                <div id="versesList" class="verses-grid">
+                    <!-- Populated via JS -->
+                </div>
+            </section>
+
+            <!-- Favorites View -->
+            <section id="favoritesView" class="view-section">
+                <header style="margin-bottom: 2rem;">
+                    <h1 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Your Favorites</h1>
+                    <p style="color: var(--text-dim); font-size: 0.9rem;">Saved insights for your journey.</p>
+                </header>
+                <div id="favoritesList" class="verses-grid">
+                    <!-- Populated via JS -->
+                </div>
+            </section>
+
+            <!-- Wallet View -->
+            <section id="walletView" class="view-section">
+                <header style="margin-bottom: 2rem;">
+                    <h1 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Spiritual Credits</h1>
+                    <p style="color: var(--text-dim); font-size: 0.9rem;">Manage your guidance balance.</p>
+                </header>
+                
+                <div class="wallet-card" style="margin-bottom: 2rem;">
+                    <p style="font-size: 0.9rem; color: var(--text-dim);">Available Balance</p>
+                    <h2 id="creditBalance" style="font-size: 3rem; margin: 1rem 0;">10</h2>
+                    <p style="font-size: 0.8rem; color: var(--accent);">Seeker Credits</p>
+                </div>
+
+                <div class="transaction-list" style="margin-bottom: 2rem;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">Recent Activity</h3>
+                    <div id="activityLog">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+
+                <div class="transaction-list">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">Question History</h3>
+                    <div id="questionHistory">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+
+                <button class="subscribe-btn" style="margin-top: 2rem;">Recharge Credits</button>
+            </section>
+
+            <!-- Floating 3D vibes -->
+            <div class="float-element" style="top: 10%; right: 5%;"></div>
+            <div class="float-element" style="bottom: 20%; left: 10%; background: var(--secondary);"></div>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="subscription-card" style="max-width: 600px;">
+            <h2 style="font-size: 2rem; margin-bottom: 1rem;">Choose Your Wisdom Path</h2>
+            <p style="color: var(--text-dim); margin-bottom: 2rem;">Unlock higher guidance and unlimited features.</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; text-align: left;">
+                <!-- Basic Plan -->
+                <div class="verse-card" style="cursor: default;">
+                    <h3 data-plan-name="basic" style="margin-bottom: 0.5rem;">Basic Seeker</h3>
+                    <p style="font-size: 1.5rem; color: white; margin-bottom: 1rem;"><span data-plan-price="basic">₹99</span><span style="font-size: 0.8rem; color: var(--text-dim);">/mo</span></p>
+                    <ul style="font-size: 0.8rem; color: var(--text-dim); list-style: none; padding: 0;">
+                        <li>✅ 50 Questions</li>
+                        <li>✅ Basic Support</li>
+                        <li>✅ Ad-free Experience</li>
+                    </ul>
+                    <button class="subscribe-btn" data-plan="basic" style="margin-top: 1.5rem; padding: 0.5rem;">Upgrade</button>
+                </div>
+                <!-- Unlimited Plan -->
+                <div class="verse-card" style="border-color: var(--primary); cursor: default; background: rgba(255, 153, 51, 0.05);">
+                    <h3 data-plan-name="unlimited" style="margin-bottom: 0.5rem;">Divine Unlimited</h3>
+                    <p style="font-size: 1.5rem; color: white; margin-bottom: 1rem;"><span data-plan-price="unlimited">₹299</span><span style="font-size: 0.8rem; color: var(--text-dim);">/mo</span></p>
+                    <ul style="font-size: 0.8rem; color: var(--text-dim); list-style: none; padding: 0;">
+                        <li>✅ Unlimited Questions</li>
+                        <li>✅ Priority AI Response</li>
+                        <li>✅ Immersive 3D Rooms</li>
+                    </ul>
+                    <button class="subscribe-btn" data-plan="unlimited" style="margin-top: 1.5rem; padding: 0.5rem;">Go Unlimited</button>
+                </div>
+            </div>
+
+            <p style="margin-top: 2rem; font-size: 0.8rem; color: var(--text-dim); cursor: pointer;" id="closeModal">Stay with Free Tier</p>
+        </div>
+    </div>
+
+    <!-- Escalation Modal -->
+    <div class="modal-overlay" id="escalationOverlay">
+        <div class="subscription-card" style="max-width: 450px; border-color: var(--accent);">
+            <h2 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--accent);">Support & Resources</h2>
+            <p style="margin-bottom: 1.5rem; line-height: 1.6; color: var(--text-main);">It seems like you're going through something important. While we offer philosophical guidance, your well-being is the priority. Would you like to explore professional resources or support options?</p>
+            <div style="display: flex; gap: 1rem; flex-direction: column;">
+                <a href="https://icallhelpline.org" target="_blank" class="subscribe-btn" style="text-decoration: none; text-align: center;">View Support Resources (iCall India)</a>
+                <button class="close-modal" id="closeEscalation" style="position: static; font-size: 0.9rem; opacity: 0.7;">Continue Reflection</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pre-Chat Disclaimer Modal -->
+    <div class="modal-overlay" id="preChatDisclaimer">
+        <div class="subscription-card" style="max-width: 450px;">
+            <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">Seek Wisdom Responsibility</h2>
+            <div style="text-align: left; margin-bottom: 1.5rem;">
+                <p style="margin-bottom: 1rem; line-height: 1.6; color: var(--text-main);">Responses are generated to encourage thoughtful reflection and balanced perspective.</p>
+                <p style="line-height: 1.6; color: var(--text-main);">They should not be treated as authoritative or professional guidance.</p>
+            </div>
+            <button class="subscribe-btn" id="acceptDisclaimerBtn" onclick="handleDisclaimer()">I Understand & Proceed</button>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer"></div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav">
+        <div class="mobile-nav-item active" data-view="chat">
+            <span>💬</span><span>Chat</span>
+        </div>
+        <div class="mobile-nav-item" data-view="verses">
+            <span>📖</span><span>Verses</span>
+        </div>
+        <div class="mobile-nav-item" data-view="favorites">
+            <span>⭐</span><span>Saved</span>
+        </div>
+        <div class="mobile-nav-item" data-view="wallet">
+            <span>💳</span><span>Wallet</span>
+        </div>
+        <div class="mobile-nav-item" id="mobileGoProBtn">
+            <span>⚡</span><span>Pro</span>
+        </div>
+        <div class="mobile-nav-item" id="mobileLogoutBtn" style="color: #ef4444;">
+            <span>🚪</span><span>Logout</span>
+        </div>
+    </nav>
+
+    <!-- Audio System -->
+    <audio id="bgAudio" loop></audio>
+
+    <!-- Wisdom Card Overlay -->
+    <div class="modal-overlay" id="wisdomCardOverlay">
+        <div class="wisdom-card-container" id="wisdomCardContent">
+            <!-- Populated via JS -->
+            <button class="close-modal" id="closeCard" style="top: 2rem; right: 2rem;">✕</button>
+        </div>
+    </div>
+
+    <script type="module" src="main.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('SW Registered'))
+                    .catch(err => console.log('SW Reg failed'));
+            });
+        }
+    </script>
+</body>
+</html>

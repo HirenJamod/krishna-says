@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krishna Says — Admin Panel</title>
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     LOGIN GATE
+══════════════════════════════════════════════ -->
+<div id="adminLogin">
+    <div class="login-box">
+        <div class="admin-logo">⚔️ Admin</div>
+        <p>Krishna Says — Control Panel</p>
+        <input type="password" id="adminPasswordInput" class="admin-input" placeholder="Enter admin password" autocomplete="current-password">
+        <div class="login-error" id="loginError">❌ Incorrect password</div>
+        <button class="admin-btn" id="adminLoginBtn">Unlock Dashboard</button>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     MAIN APP
+══════════════════════════════════════════════ -->
+<div id="adminApp">
+    <div class="admin-shell">
+
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-logo">⚔️ Admin Panel</div>
+            <div class="sidebar-sub">Krishna Says</div>
+
+            <div class="nav-section-label">Dashboard</div>
+            <div class="admin-nav-item active" data-panel="overview">
+                <span class="nav-icon">📊</span> Overview
+            </div>
+
+            <div class="nav-section-label">Customise Client</div>
+            <div class="admin-nav-item" data-panel="branding">
+                <span class="nav-icon">🎨</span> Branding
+            </div>
+            <div class="admin-nav-item" data-panel="login">
+                <span class="nav-icon">🔑</span> Login Screen
+            </div>
+            <div class="admin-nav-item" data-panel="plans">
+                <span class="nav-icon">💎</span> Subscription Plans
+            </div>
+            <div class="admin-nav-item" data-panel="freetier">
+                <span class="nav-icon">🆓</span> Free Tier
+            </div>
+            <div class="admin-nav-item" data-panel="display">
+                <span class="nav-icon">🌗</span> Display &amp; Defaults
+            </div>
+            <div class="admin-nav-item" data-panel="announcement">
+                <span class="nav-icon">📣</span> Announcement
+            </div>
+
+            <div class="nav-section-label">Content</div>
+            <div class="admin-nav-item" data-panel="wisdom">
+                <span class="nav-icon">📖</span> Wisdom Library
+            </div>
+
+            <div class="nav-section-label">Database Data</div>
+            <div class="admin-nav-item" data-panel="users">
+                <span class="nav-icon">👥</span> Users
+            </div>
+            <div class="admin-nav-item" data-panel="queries">
+                <span class="nav-icon">💬</span> Query History
+            </div>
+            <div class="admin-nav-item" data-panel="transactions">
+                <span class="nav-icon">💳</span> Transactions
+            </div>
+
+            <div class="sidebar-footer">
+                <button class="logout-btn" id="adminLogoutBtn">🔒 Logout</button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="admin-main">
+
+            <!-- ── OVERVIEW ── -->
+            <section class="admin-panel active" id="panel-overview">
+                <div class="panel-header">
+                    <h1>📊 Dashboard Overview</h1>
+                    <p>Quick stats and system status for Krishna Says</p>
+                </div>
+                <div class="stats-bar-5">
+                    <div class="stat-card">
+                        <div class="stat-value" id="statTotalUsers">0</div>
+                        <div class="stat-label">Total Users</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statTotalQueries">0</div>
+                        <div class="stat-label">Queries Logged</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statTotalTransactions">0</div>
+                        <div class="stat-label">Transactions</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statWisdomCount">0</div>
+                        <div class="stat-label">Wisdom Library</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statPremiumUsers">0</div>
+                        <div class="stat-label">Premium Seekers</div>
+                    </div>
+                </div>
+                <div class="admin-card">
+                    <h3>⚡ Quick Actions</h3>
+                    <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+                        <button class="admin-btn secondary" style="width:auto;padding:0.6rem 1.5rem;" onclick="navTo('announcement')">📣 Toggle Announcement</button>
+                        <button class="admin-btn secondary" style="width:auto;padding:0.6rem 1.5rem;" onclick="navTo('wisdom')">➕ Add Wisdom</button>
+                        <a href="/" target="_blank" class="admin-btn secondary" style="width:auto;padding:0.6rem 1.5rem;text-decoration:none;display:inline-flex;align-items:center;">🪷 View Client Panel</a>
+                    </div>
+                </div>
+                <div class="admin-card">
+                    <h3>📋 Current Config Summary</h3>
+                    <pre id="configSummary" style="font-size:0.78rem;color:var(--admin-dim);line-height:1.7;overflow-x:auto;"></pre>
+                </div>
+            </section>
+
+            <!-- ── BRANDING ── -->
+            <section class="admin-panel" id="panel-branding">
+                <div class="panel-header">
+                    <h1>🎨 Branding</h1>
+                    <p>Control the app title, tagline, and welcome greeting shown on the client panel.</p>
+                </div>
+                <div class="admin-card">
+                    <h3>🏷️ App Identity</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>App Title</label>
+                            <input type="text" class="admin-input" id="b_appTitle" placeholder="Krishna Says">
+                        </div>
+                        <div class="form-group">
+                            <label>Tagline (browser tab)</label>
+                            <input type="text" class="admin-input" id="b_appTagline" placeholder="Modern Spiritual Guidance">
+                        </div>
+                    </div>
+                    <div class="form-row full">
+                        <div class="form-group">
+                            <label>Welcome Message (first AI greeting)</label>
+                            <textarea class="admin-textarea" id="b_welcomeMessage" placeholder="Greetings, seeker..."></textarea>
+                        </div>
+                    </div>
+                    <div class="save-row">
+                        <button class="save-btn" onclick="saveBranding()">💾 Save Branding</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── LOGIN SCREEN ── -->
+            <section class="admin-panel" id="panel-login">
+                <div class="panel-header">
+                    <h1>🔑 Login Screen</h1>
+                    <p>Customise what users see on the login / onboarding card.</p>
+                </div>
+                <div class="admin-card">
+                    <h3>✍️ Login Card Text</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Sanskrit Header Text</label>
+                            <input type="text" class="admin-input" id="l_sanskritText" placeholder="श्री कृष्ण उवाच">
+                        </div>
+                        <div class="form-group">
+                            <label>Login Title</label>
+                            <input type="text" class="admin-input" id="l_loginTitle" placeholder="Vibe Check">
+                        </div>
+                    </div>
+                    <div class="form-row full">
+                        <div class="form-group">
+                            <label>Login Subtitle</label>
+                            <input type="text" class="admin-input" id="l_loginSubtitle" placeholder="Your cosmic session is being prepared...">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Ascend Button Label</label>
+                            <input type="text" class="admin-input" id="l_ascentBtnLabel" placeholder="🪷 Ascend 🪷">
+                        </div>
+                        <div class="form-group">
+                            <label>Disclaimer Text</label>
+                            <input type="text" class="admin-input" id="l_disclaimer" placeholder="Reflective guidance...">
+                        </div>
+                    </div>
+                    <div class="save-row">
+                        <button class="save-btn" onclick="saveLogin()">💾 Save Login Screen</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── PLANS ── -->
+            <section class="admin-panel" id="panel-plans">
+                <div class="panel-header">
+                    <h1>💎 Subscription Plans</h1>
+                    <p>Edit plan names, prices, and features shown in the upgrade modal.</p>
+                </div>
+
+                <!-- Basic Plan -->
+                <div class="admin-card">
+                    <h3>🟢 Basic Plan</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Plan Name</label>
+                            <input type="text" class="admin-input" id="p_basicName" placeholder="Basic Seeker">
+                        </div>
+                        <div class="form-group">
+                            <label>Price (₹/month)</label>
+                            <input type="number" class="admin-input" id="p_basicPrice" placeholder="99">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom:0.75rem;">
+                        <label>Credits Awarded on Purchase</label>
+                        <input type="number" class="admin-input" id="p_basicCredits" placeholder="50">
+                    </div>
+                    <div class="form-group">
+                        <label>Features</label>
+                        <div class="feature-list" id="basicFeatureList"></div>
+                        <button class="add-feature-btn" onclick="addFeature('basic')">+ Add Feature</button>
+                    </div>
+                </div>
+
+                <!-- Unlimited Plan -->
+                <div class="admin-card">
+                    <h3>🔥 Unlimited Plan</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Plan Name</label>
+                            <input type="text" class="admin-input" id="p_unlimitedName" placeholder="Divine Unlimited">
+                        </div>
+                        <div class="form-group">
+                            <label>Price (₹/month)</label>
+                            <input type="number" class="admin-input" id="p_unlimitedPrice" placeholder="299">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Features</label>
+                        <div class="feature-list" id="unlimitedFeatureList"></div>
+                        <button class="add-feature-btn" onclick="addFeature('unlimited')">+ Add Feature</button>
+                    </div>
+                    <div class="save-row" style="margin-top:1rem;">
+                        <button class="save-btn" onclick="savePlans()">💾 Save Plans</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── FREE TIER ── -->
+            <section class="admin-panel" id="panel-freetier">
+                <div class="panel-header">
+                    <h1>🆓 Free Tier Settings</h1>
+                    <p>Control how many questions free users can ask per day.</p>
+                </div>
+                <div class="admin-card">
+                    <h3>⚙️ Free Tier Limits</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Daily Question Limit</label>
+                            <input type="number" class="admin-input" id="ft_dailyLimit" placeholder="5" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Starting Credits (new users)</label>
+                            <input type="number" class="admin-input" id="ft_startingCredits" placeholder="10" min="0">
+                        </div>
+                    </div>
+                    <div class="save-row">
+                        <button class="save-btn" onclick="saveFreeTier()">💾 Save Free Tier</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── DISPLAY ── -->
+            <section class="admin-panel" id="panel-display">
+                <div class="panel-header">
+                    <h1>🌗 Display &amp; Defaults</h1>
+                    <p>Set the default sound, spiritual depth, and enable/disable Temple Mode.</p>
+                </div>
+                <div class="admin-card">
+                    <h3>🎵 Audio &amp; Theme Defaults</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Default Background Sound</label>
+                            <select class="admin-select" id="d_defaultSound">
+                                <option value="none">🔇 No Sound</option>
+                                <option value="flute">🪈 Flute</option>
+                                <option value="nature">🍃 Nature</option>
+                                <option value="chants">🕉️ Chants</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Default Spiritual Depth</label>
+                            <select class="admin-select" id="d_defaultDepth">
+                                <option value="practical">🟥 Practical</option>
+                                <option value="philosophical">💚 Philosophical</option>
+                                <option value="deep">🟣 Deep Vedic</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="toggle-row" style="margin-top:0.5rem;">
+                        <div>
+                            <div class="toggle-label">Temple Mode</div>
+                            <div class="toggle-sub">Allow users to activate Temple Mode (saffron theme)</div>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="d_templeModeEnabled">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="save-row">
+                        <button class="save-btn" onclick="saveDisplay()">💾 Save Display Settings</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── ANNOUNCEMENT ── -->
+            <section class="admin-panel" id="panel-announcement">
+                <div class="panel-header">
+                    <h1>📣 Announcement Banner</h1>
+                    <p>Show a live notice/banner to all users on the client panel.</p>
+                </div>
+                <div class="admin-card">
+                    <h3>📢 Banner Settings</h3>
+                    <div class="toggle-row" style="margin-bottom:1.25rem;">
+                        <div>
+                            <div class="toggle-label">Enable Announcement</div>
+                            <div class="toggle-sub">When ON, banner shows on the client panel</div>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="a_enabled">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="form-row full">
+                        <div class="form-group">
+                            <label>Announcement Message</label>
+                            <textarea class="admin-textarea" id="a_message" placeholder="e.g. We are performing maintenance at 10 PM IST tonight."></textarea>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Banner Type</label>
+                            <select class="admin-select" id="a_type">
+                                <option value="info">ℹ️ Info (blue)</option>
+                                <option value="warning">⚠️ Warning (gold)</option>
+                                <option value="danger">🚨 Danger (red)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="save-row">
+                        <button class="save-btn" onclick="saveAnnouncement()">💾 Save Announcement</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── WISDOM LIBRARY ── -->
+            <section class="admin-panel" id="panel-wisdom">
+                <div class="panel-header">
+                    <h1>📖 Wisdom Library</h1>
+                    <p>Add, edit, or remove custom wisdom entries. These are injected into the AI response system.</p>
+                </div>
+                <div class="admin-card">
+                    <h3>📚 Custom Entries</h3>
+                    <div class="wisdom-list" id="wisdomList">
+                        <p style="color:var(--admin-dim);font-size:0.85rem;">No custom entries yet. Click below to add one.</p>
+                    </div>
+                    <button class="admin-btn success-btn" onclick="openWisdomModal()">➕ Add New Wisdom Entry</button>
+                </div>
+            </section>
+
+            <!-- ── USERS ── -->
+            <section class="admin-panel" id="panel-users">
+                <div class="panel-header">
+                    <h1>👥 Registered Users</h1>
+                    <p>Track all registered seekers, their tier status, remaining credits, and spiritual journey.</p>
+                </div>
+                <div class="admin-card">
+                    <div class="table-toolbar">
+                        <input type="text" class="table-search" id="usersSearch" oninput="filterUsersTable()" placeholder="Search seekers...">
+                        <span class="table-count" id="usersCount">0 Users</span>
+                    </div>
+                    <div class="data-table-wrap">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Session / ID</th>
+                                    <th>Name / Info</th>
+                                    <th>Tier / Status</th>
+                                    <th>Credits</th>
+                                    <th>Streak</th>
+                                    <th>Last Active</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── QUERY HISTORY ── -->
+            <section class="admin-panel" id="panel-queries">
+                <div class="panel-header">
+                    <h1>💬 Query History</h1>
+                    <p>Complete ledger of all spiritual questions asked to Krishna Says.</p>
+                </div>
+                <div class="admin-card">
+                    <div class="table-toolbar">
+                        <input type="text" class="table-search" id="queriesSearch" oninput="filterQueriesTable()" placeholder="Search queries...">
+                        <span class="table-count" id="queriesCount">0 Queries</span>
+                    </div>
+                    <div class="data-table-wrap">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Seeker Name</th>
+                                    <th>Question & AI Response</th>
+                                    <th>Depth / Lang</th>
+                                </tr>
+                            </thead>
+                            <tbody id="queriesTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── TRANSACTIONS ── -->
+            <section class="admin-panel" id="panel-transactions">
+                <div class="panel-header">
+                    <h1>💳 Transactions & Logs</h1>
+                    <p>View all credit top-ups, subscription activations, and payment checkout logs.</p>
+                </div>
+                <div class="admin-card">
+                    <div class="table-toolbar">
+                        <input type="text" class="table-search" id="txSearch" oninput="filterTxTable()" placeholder="Search transactions...">
+                        <span class="table-count" id="txCount">0 Transactions</span>
+                    </div>
+                    <div class="data-table-wrap">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Seeker Name</th>
+                                    <th>Plan / Type</th>
+                                    <th>Amount</th>
+                                    <th>Credits Delta</th>
+                                    <th>Payment ID</th>
+                                </tr>
+                            </thead>
+                            <tbody id="txTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     WISDOM MODAL
+══════════════════════════════════════════════ -->
+<div class="wisdom-modal-overlay" id="wisdomModal">
+    <div class="wisdom-modal">
+        <h3 id="wisdomModalTitle">➕ Add Wisdom Entry</h3>
+        <input type="hidden" id="wm_editIndex" value="-1">
+
+        <div class="form-row full" style="margin-bottom:0.75rem;">
+            <div class="form-group">
+                <label>Depth Level</label>
+                <select class="admin-select" id="wm_depth">
+                    <option value="practical">Practical</option>
+                    <option value="philosophical">Philosophical</option>
+                    <option value="deep">Deep Vedic</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row full" style="margin-bottom:0.75rem;">
+            <div class="form-group">
+                <label>Keywords (comma-separated, e.g. peace,शांति,શાંતિ)</label>
+                <input type="text" class="admin-input" id="wm_keywords" placeholder="e.g. peace, forgiveness, माफ़ी">
+            </div>
+        </div>
+
+        <div class="form-row full" style="margin-bottom:0.75rem;">
+            <div class="form-group">
+                <label>Response — English</label>
+                <textarea class="admin-textarea" id="wm_en" placeholder="English wisdom response..."></textarea>
+            </div>
+        </div>
+        <div class="form-row full" style="margin-bottom:0.75rem;">
+            <div class="form-group">
+                <label>Response — Hindi (optional)</label>
+                <textarea class="admin-textarea" id="wm_hi" placeholder="हिन्दी में उत्तर..."></textarea>
+            </div>
+        </div>
+        <div class="form-row full" style="margin-bottom:0.5rem;">
+            <div class="form-group">
+                <label>Response — Gujarati (optional)</label>
+                <textarea class="admin-textarea" id="wm_gu" placeholder="ગુજરાતીમાં જવાબ..."></textarea>
+            </div>
+        </div>
+
+        <div class="modal-actions">
+            <button class="admin-btn" onclick="saveWisdomEntry()">💾 Save Entry</button>
+            <button class="admin-btn secondary" onclick="closeWisdomModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div id="adminToast"></div>
+
+<script src="admin.js"></script>
+</body>
+</html>

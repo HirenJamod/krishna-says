@@ -1,0 +1,7 @@
+node_modules
+.env
+krishna.db
+*.log
+.DS_Store
+fix_bt.js
+db_sqlite_backup.js

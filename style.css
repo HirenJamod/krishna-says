@@ -1,0 +1,818 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
+
+:root {
+    --primary: #D4AF37; /* Soft Gold */
+    --secondary: #FFB7C5; /* Lotus Pink */
+    --accent: #FFFFFF; /* Pure Light */
+    --bg-dark: #F5F5F7; /* Morning Mist */
+    --glass: rgba(255, 255, 255, 0.45); /* Frosted Glass */
+    --glass-border: rgba(212, 175, 55, 0.3); /* Golden Silk Border */
+    --text-main: #2D3436;
+    --text-dim: #636E72;
+    --glow: rgba(212, 175, 55, 0.4);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Space Grotesk', 'Outfit', sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 2000px;
+}
+
+body.login-pending .app-shell {
+    filter: blur(15px) brightness(0.95);
+    pointer-events: none;
+}
+
+/* Background Animation */
+.bg-mesh {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 10% 10%, rgba(255, 183, 197, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 90% 90%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+        linear-gradient(rgba(245, 245, 247, 0.85), rgba(245, 245, 247, 0.85)),
+        url('https://images.unsplash.com/photo-1464618663641-bbdd760ae84a?q=80&w=2000') no-repeat center center / cover;
+    z-index: -1;
+    filter: blur(2px);
+    transform: scale(1.05);
+}
+
+/* 3D App Container */
+.app-shell {
+    width: 90%;
+    max-width: 1200px;
+    height: 90vh;
+    min-height: 700px;
+    background: var(--glass);
+    -webkit-backdrop-filter: blur(25px);
+    backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    border-radius: 40px;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    box-shadow: 0 40px 100px -30px rgba(212, 175, 55, 0.15), 0 0 50px rgba(255, 255, 255, 0.2);
+    transform-style: preserve-3d;
+    transform: rotateX(2deg) rotateY(-2deg);
+    transition: transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.app-shell:hover {
+    transform: rotateX(0deg) rotateY(0deg);
+}
+
+/* Sidebar & Divine Core */
+.sidebar {
+    border-right: 1px solid var(--glass-border);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    align-items: center;
+    overflow-y: auto;
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+}
+
+.sidebar::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome/Safari */
+}
+
+/* The Divine Core */
+.divine-core-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.4));
+    margin-bottom: -1rem;
+}
+
+.geometry {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgba(255, 215, 0, 0.5);
+    border-radius: 50%;
+    animation: spinGeo 20s linear infinite;
+}
+
+.sri-yantra {
+    width: 120px !important;
+    height: 120px !important;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.geo-1 { border-radius: 30%; animation-duration: 15s; border-color: var(--secondary); }
+.geo-2 { border-radius: 40%; animation-duration: 25s; animation-direction: reverse; border-color: var(--primary); }
+.geo-3 { border-radius: 35%; animation-duration: 10s; width: 70%; height: 70%; border-color: var(--secondary); }
+
+.core-glow {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 30px 10px rgba(0, 229, 255, 0.8);
+    animation: pulseCore 4s ease-in-out infinite;
+}
+
+@keyframes spinGeo { 100% { transform: rotate(360deg); } }
+@keyframes pulseCore { 
+    0%, 100% { transform: scale(1); opacity: 0.8; } 
+    50% { transform: scale(1.5); opacity: 1; box-shadow: 0 0 50px 20px rgba(255, 215, 0, 1); } 
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    background: linear-gradient(to right, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -1px;
+    text-align: center;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    width: 100%;
+}
+
+.nav-item {
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.nav-item.active {
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Main Content Area */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.view-section {
+    display: none;
+    flex-direction: column;
+    height: 100%;
+}
+
+.view-section.active {
+    display: flex;
+}
+
+.verses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    overflow-y: auto;
+    padding-bottom: 2rem;
+}
+
+.verse-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    padding: 1.5rem;
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.08);
+    transition: transform 0.1s ease, border-color 0.3s ease;
+    transform-style: preserve-3d;
+    cursor: pointer;
+}
+
+/* Holographic Glare */
+.verse-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 200%; height: 200%;
+    background: linear-gradient(
+        115deg,
+        transparent 20%,
+        rgba(255, 255, 255, 0.2) 30%,
+        transparent 40%
+    );
+    transform: translate(-100%, -100%);
+    transition: transform 0.1s ease;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    z-index: 2;
+}
+
+.verse-card:hover::before {
+    transform: translate(var(--x, 0), var(--y, 0));
+}
+
+.verse-card:hover {
+    border-color: var(--primary);
+}
+
+.verse-card h3 {
+    color: var(--primary);
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+    text-transform: capitalize;
+    font-weight: 600;
+}
+
+.verse-card p {
+    font-size: 0.95rem;
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+/* Wallet & Mood */
+.wallet-card {
+    background: linear-gradient(135deg, var(--secondary), #4f46e5);
+    padding: 2.5rem;
+    border-radius: 32px;
+    text-align: center;
+    box-shadow: 0 20px 40px -10px rgba(192, 132, 252, 0.3);
+}
+
+.transaction-list {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 1.5rem;
+}
+
+.transaction-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.mood-chip {
+    padding: 0.5rem 1.25rem;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--glass-border);
+    border-radius: 100px;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.mood-chip.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* Chat Styling */
+.chat-history {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.message {
+    max-width: 85%;
+    padding: 1.25rem 1.5rem;
+    border-radius: 24px;
+    font-size: 1rem;
+    line-height: 1.6;
+    animation: slideIn 0.8s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); filter: blur(5px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+.user-message { 
+    align-self: flex-end; 
+    background: linear-gradient(135deg, var(--secondary), var(--primary)); 
+    color: white; 
+    border-bottom-right-radius: 4px; 
+    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);
+}
+.ai-message { 
+    align-self: flex-start; 
+    background: rgba(255, 255, 255, 0.9); 
+    color: var(--text-main);
+    border: 1px solid rgba(212, 175, 55, 0.15); 
+    border-bottom-left-radius: 4px; 
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+}
+
+.input-area {
+    margin-top: auto;
+    display: flex;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 1rem;
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+}
+
+.input-area input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+}
+
+.send-btn {
+    background: var(--primary);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 14px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* -----------------------------------------------------------
+   CELESTIAL VOYAGE CORE - MODALS & ONBOARDING
+----------------------------------------------------------- */
+
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.6) 0%, rgba(245, 245, 247, 0.98) 100%);
+    backdrop-filter: blur(40px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-overlay.exit {
+    opacity: 0;
+    transform: scale(1.5);
+    pointer-events: none;
+}
+
+.subscription-card {
+    background: linear-gradient(135deg, rgba(255, 183, 197, 0.1) 0%, rgba(255, 255, 255, 0.95) 100%) !important;
+    border: 1px solid rgba(212, 175, 55, 0.4) !important;
+    box-shadow: 0 30px 60px rgba(212, 175, 55, 0.15);
+    border-radius: 40px !important;
+    padding: clamp(2rem, 8vh, 5rem) clamp(1.5rem, 5vw, 3rem) !important;
+    width: 90%;
+    max-width: 450px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    z-index: 10001;
+}
+
+.gold-gradient-text {
+    background: linear-gradient(to right, #fff, var(--primary), #fff);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    animation: starlight 5s linear infinite;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+@keyframes starlight { to { background-position: 200% center; } }
+
+.glass-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.8) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 12px !important;
+    color: var(--text-main) !important;
+    padding: 0.75rem 1rem !important;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    position: relative;
+    z-index: 10002; /* Top layer for clicking */
+    pointer-events: auto !important;
+}
+
+.glass-input:focus {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: var(--primary) !important;
+    outline: none;
+    box-shadow: 0 0 25px rgba(129, 140, 248, 0.3);
+}
+
+.subscribe-btn {
+    width: 100%;
+    padding: 1.2rem;
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    border: none;
+    border-radius: 16px;
+    color: white;
+    font-weight: 800;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.subscribe-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Digital Sanskrit Matrix */
+.starfield {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.matrix-char {
+    position: absolute;
+    color: rgba(0, 229, 255, 0.6);
+    text-shadow: 0 0 10px rgba(0, 229, 255, 1);
+    opacity: 0;
+    animation: matrixFall var(--duration) linear infinite;
+    pointer-events: none !important;
+}
+
+@keyframes matrixFall {
+    0% { transform: translateY(-50px) scale(0.8); opacity: 0; }
+    5% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% { transform: translateY(110vh) scale(1.2); opacity: 0; }
+}
+
+
+/* Depth Color Shifts */
+body.depth-practical { --bg-shift: rgba(129, 140, 248, 0.1); }
+body.depth-philosophical { --bg-shift: rgba(192, 132, 252, 0.1); }
+body.depth-deep { --bg-shift: rgba(248, 250, 252, 0.05); }
+
+.bg-mesh::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--bg-shift, transparent);
+    transition: background 1.5s ease;
+    z-index: -1;
+}
+
+/* -----------------------------------------------------------
+   TOAST NOTIFICATIONS
+----------------------------------------------------------- */
+#toastContainer {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    z-index: 99999;
+    align-items: center;
+    pointer-events: none;
+}
+
+.toast {
+    padding: 0.8rem 1.6rem;
+    border-radius: 50px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: white;
+    backdrop-filter: blur(20px);
+    opacity: 0;
+    transform: translateY(16px) scale(0.95);
+    transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+    pointer-events: auto;
+    white-space: nowrap;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.toast-info    { background: rgba(212, 175, 55, 0.9); border: 1px solid rgba(212,175,55,0.5); }
+.toast-success { background: rgba(74, 222, 128, 0.85);  border: 1px solid rgba(74,222,128,0.5); }
+.toast-error   { background: rgba(248, 113, 113, 0.85); border: 1px solid rgba(248,113,113,0.5); }
+
+/* -----------------------------------------------------------
+   TYPING INDICATOR
+----------------------------------------------------------- */
+.typing-indicator {
+    display: flex !important;
+    align-items: center;
+    gap: 6px;
+    padding: 1rem 1.4rem !important;
+    width: fit-content;
+}
+
+.typing-indicator span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primary);
+    display: inline-block;
+    animation: typingBounce 1.2s ease-in-out infinite;
+}
+
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingBounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+    30%            { transform: translateY(-8px); opacity: 1; }
+}
+
+/* ── Unified Media Queries ── */
+@media (max-width: 900px) {
+    .app-shell {
+        grid-template-columns: 1fr;
+        height: 100vh;
+        width: 100% !important;
+        max-width: 100% !important;
+        border-radius: 0;
+        transform: none !important;
+    }
+    .sidebar { display: none !important; }
+    .mobile-bottom-nav { display: flex !important; }
+    .main-content { padding: 1rem; padding-bottom: 80px; }
+}
+
+@media (max-width: 600px) {
+    .subscription-card {
+        width: 95% !important;
+        padding: 2rem 1.5rem !important;
+    }
+}
+
+
+/* ============================================================
+   🪔 TEMPLE MODE
+   Activated by: document.body.classList.add('temple-mode')
+   Full atmosphere shift — warm saffron, gold, incense glow
+   ============================================================ */
+
+/* ── Colour palette override ── */
+body.temple-mode {
+    --primary:      #FF9933;   /* Saffron */
+    --secondary:    #FFD700;   /* Gold */
+    --accent:       #FFF3CD;   /* Warm cream */
+    --bg-dark:      #120800;   /* Deep temple black */
+    --glass:        rgba(30, 12, 0, 0.6);
+    --glass-border: rgba(255, 153, 51, 0.3);
+    --text-main:    #FFF3CD;
+    --text-dim:     #C49A3C;
+}
+
+/* ── Background — replace space image with deep amber glow ── */
+body.temple-mode .bg-mesh {
+    background:
+        radial-gradient(ellipse at 50% 0%,   rgba(0, 229, 255, 0.25) 0%, transparent 60%),
+        radial-gradient(ellipse at 20% 80%,  rgba(0, 229, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%,  rgba(255, 215,   0, 0.12) 0%, transparent 50%),
+        linear-gradient(180deg, #050505 0%, #000000 100%);
+    filter: none;
+    transform: none;
+    animation: templeAmbient 8s ease-in-out infinite alternate;
+}
+
+@keyframes templeAmbient {
+    0%   { opacity: 0.9; }
+    100% { opacity: 1;   }
+}
+
+/* ── App shell — holo dark glass ── */
+/* Temple Mode Unified */
+body.temple-mode .app-shell {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: var(--primary);
+}
+
+/* ── Sidebar border ── */
+body.temple-mode .sidebar {
+    border-right-color: rgba(0, 229, 255, 0.25);
+}
+
+/* ── Starfield → transform into cyber matrix ── */
+body.temple-mode .matrix-char {
+    color: var(--primary);
+    text-shadow: 0 0 8px var(--secondary);
+}
+
+/* ── Divine core — cyber pulse ── */
+body.temple-mode .core-glow {
+    background: radial-gradient(circle, #00E5FF, #00BFFF);
+    box-shadow: 0 0 40px 15px rgba(0, 229, 255, 0.9);
+    animation: cyberFlicker 2s ease-in-out infinite;
+}
+
+@keyframes cyberFlicker {
+    0%, 100% { transform: scale(1);    opacity: 0.9; box-shadow: 0 0 40px 15px rgba(0,229,255,0.9); }
+    25%       { transform: scale(1.15); opacity: 1;   box-shadow: 0 0 60px 25px rgba(0,229,255,1);   }
+    50%       { transform: scale(0.95); opacity: 0.8; box-shadow: 0 0 30px 10px rgba(0,190,255,0.7); }
+    75%       { transform: scale(1.2);  opacity: 1;   box-shadow: 0 0 55px 22px rgba(0,255,255,0.95);}
+}
+
+body.temple-mode .geometry {
+    border-color: rgba(0, 229, 255, 0.5);
+    animation-duration: 12s;
+}
+body.temple-mode .geo-1 { border-color: rgba(255, 215,   0, 0.8); }
+body.temple-mode .geo-2 { border-color: rgba(0, 229,  255, 0.5); animation-duration: 20s; }
+body.temple-mode .geo-3 { border-color: rgba(255, 215, 0, 0.6); animation-duration:  8s; }
+
+/* ── Chat messages ── */
+body.temple-mode .ai-message {
+    background: rgba(212, 175, 55, 0.05);
+    border-color: var(--glass-border);
+}
+
+body.temple-mode .user-message {
+    background: linear-gradient(135deg, #00BFFF, #00E5FF);
+}
+
+/* ── Verse & wallet cards ── */
+body.temple-mode .verse-card {
+    background: rgba(5, 15, 20, 0.7);
+    border-color: rgba(0, 229, 255, 0.25);
+}
+body.temple-mode .verse-card:hover {
+    border-color: #00E5FF;
+    box-shadow: 0 0 30px rgba(0, 229, 255, 0.2);
+}
+body.temple-mode .verse-card h3 { color: #FFD700; }
+
+body.temple-mode .wallet-card {
+    background: linear-gradient(135deg, #005F7F, #001A2A);
+    box-shadow: 0 20px 40px -10px rgba(0, 229, 255, 0.2);
+}
+
+/* ── Input area ── */
+body.temple-mode .input-area {
+    border-color: rgba(0, 229, 255, 0.3);
+    background: rgba(5, 10, 15, 0.5);
+}
+
+body.temple-mode .glass-input {
+    border-color: rgba(0, 229, 255, 0.3) !important;
+    color: #E0FFFF !important;
+}
+body.temple-mode .glass-input:focus {
+    border-color: #00E5FF !important;
+    box-shadow: 0 0 25px rgba(0, 229, 255, 0.3);
+}
+body.temple-mode .glass-input::placeholder { color: rgba(0, 229, 255, 0.5) !important; }
+
+/* ── Buttons ── */
+body.temple-mode .subscribe-btn,
+body.temple-mode .send-btn {
+    background: linear-gradient(45deg, #00BFFF, #00E5FF);
+    color: #050505;
+    font-weight: 800;
+}
+
+/* ── Mood chips ── */
+body.temple-mode .mood-chip.active {
+    background: #00E5FF;
+    border-color: #00E5FF;
+    color: #050505;
+}
+
+/* ── Nav items ── */
+body.temple-mode .nav-item.active  { background: rgba(0, 229, 255, 0.15); color: #FFD700; }
+body.temple-mode .nav-item:hover   { background: rgba(0, 229, 255, 0.08); }
+
+/* ── Logo gradient ── */
+body.temple-mode .logo {
+    background: linear-gradient(to right, #00E5FF, #FFD700, #00E5FF);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: starlight 3s linear infinite;
+}
+
+/* ── Toasts ── */
+body.temple-mode .toast-info    { background: rgba(0, 50, 70, 0.90); border-color: rgba(0, 229, 255, 0.5); }
+body.temple-mode .toast-success { background: rgba(50, 50, 0, 0.90); border-color: rgba(255, 215, 0, 0.5); }
+
+/* ── Typing indicator dots ── */
+body.temple-mode .typing-indicator span { background: #00E5FF; }
+
+/* ── Diya 🪔 toggle button — lit/unlit state ── */
+#templeToggle {
+    transition: all 0.3s ease;
+}
+#templeToggle.active {
+    background: rgba(0, 229, 255, 0.2) !important;
+    border-color: rgba(0, 229, 255, 0.6) !important;
+    color: #FFD700 !important;
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
+    animation: diyaPulse 2s ease-in-out infinite;
+}
+
+@keyframes diyaPulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(0, 229, 255, 0.3); }
+    50%       { box-shadow: 0 0 35px rgba(0, 229, 255, 0.6); }
+}
+
+/* ── Mobile bottom nav in temple mode ── */
+body.temple-mode .mobile-bottom-nav {
+    background: rgba(18, 8, 0, 0.96);
+    border-top-color: rgba(255, 153, 51, 0.2);
+}
+body.temple-mode .mobile-nav-item.active { color: #FF9933; }
+
+/* ── RESPONSIVE DESIGN ── */
+@media (max-width: 900px) {
+    .app-shell {
+        grid-template-columns: 1fr;
+        height: 100vh;
+        width: 100%;
+        border-radius: 0;
+        min-height: auto;
+    }
+    .sidebar {
+        display: none; /* Hidden on mobile, use bottom nav */
+    }
+    .main-content {
+        padding: 1rem;
+        padding-bottom: 5rem; /* Space for mobile nav */
+    }
+    .mobile-bottom-nav {
+        display: flex;
+    }
+}
+
+@media (max-width: 600px) {
+    .subscription-card {
+        padding: 2rem 1.5rem !important;
+        margin: 1rem;
+    }
+    .chat-history {
+        padding: 1rem;
+    }
+    .ai-message, .user-message {
+        max-width: 90%;
+    }
+}
+
+
+.signup-reveal { animation: expandDown 0.4s ease-out forwards; overflow: hidden; }
+@keyframes expandDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
