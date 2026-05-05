@@ -1,4 +1,5 @@
 {
+  "id": "krishna-says-pwa",
   "name": "Krishna Says",
   "short_name": "Krishna",
   "description": "AI-powered spiritual guidance inspired by timeless wisdom of the Bhagavad Gita.",
@@ -38,6 +39,22 @@
       "sizes": "512x512",
       "type": "image/jpeg",
       "purpose": "maskable any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "./assets/screenshots/desktop.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Desktop view of Krishna Says"
+    },
+    {
+      "src": "./assets/screenshots/mobile.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Mobile view of Krishna Says"
     }
   ],
   "shortcuts": [
