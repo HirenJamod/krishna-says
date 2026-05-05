@@ -1,5 +1,25 @@
 {
   "id": "krishna-says-pwa",
+  "name": "Krishna Says",
+  "short_name": "Krishna",
+  "description": "AI-powered spiritual guidance inspired by timeless wisdom of the Bhagavad Gita.",
+  "start_url": "./index.html",
+  "scope": "/",
+  "lang": "en",
+  "dir": "ltr",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "tabbed", "standalone"],
+  "orientation": "portrait",
+  "background_color": "#F5F5F7",
+  "theme_color": "#D4AF37",
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "iarc_rating_id": "",
+  "scope_extensions": [],
+  "categories": ["lifestyle", "education"],
+  "note_taking": {
+    "new_note_url": "./index.html#chat"
+  },
   "launch_handler": {
     "client_mode": "focus-existing"
   },
@@ -18,42 +38,29 @@
       "url": "./index.html?wisdom=%s"
     }
   ],
-  "name": "Krishna Says",
-  "short_name": "Krishna",
-  "description": "AI-powered spiritual guidance inspired by timeless wisdom of the Bhagavad Gita.",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "display_override": ["window-controls-overlay", "tabbed", "standalone"],
-  "note_taking": {
-    "new_note_url": "./index.html#chat"
-  },
-  "orientation": "portrait",
-  "background_color": "#F5F5F7",
-  "theme_color": "#D4AF37",
-  "categories": ["lifestyle", "education"],
   "icons": [
     {
       "src": "./assets/icons/icon-72.png",
       "sizes": "72x72",
-      "type": "image/jpeg",
+      "type": "image/png",
       "purpose": "any"
     },
     {
       "src": "./assets/icons/icon-96.png",
       "sizes": "96x96",
-      "type": "image/jpeg",
+      "type": "image/png",
       "purpose": "any"
     },
     {
       "src": "./assets/icons/icon-128.png",
       "sizes": "128x128",
-      "type": "image/jpeg",
+      "type": "image/png",
       "purpose": "any"
     },
     {
       "src": "./assets/icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/jpeg",
+      "type": "image/png",
       "purpose": "maskable any"
     },
     {
@@ -65,35 +72,18 @@
   ],
   "screenshots": [
     {
-      "src": "./assets/screenshots/desktop.png",
-      "sizes": "1920x1080",
-      "type": "image/png",
+      "src": "./assets/screenshots/desktop.jpg",
+      "sizes": "1024x1024",
+      "type": "image/jpeg",
       "form_factor": "wide",
       "label": "Desktop view of Krishna Says"
     },
     {
-      "src": "./assets/screenshots/mobile.png",
-      "sizes": "1080x1920",
-      "type": "image/png",
+      "src": "./assets/screenshots/mobile.jpg",
+      "sizes": "1024x1024",
+      "type": "image/jpeg",
       "form_factor": "narrow",
       "label": "Mobile view of Krishna Says"
-    }
-  ],
-  "file_handlers": [
-    {
-      "action": "./index.html",
-      "accept": {
-        "text/plain": [".txt"],
-        "application/json": [".json"]
-      },
-      "icons": [
-        {
-          "src": "./assets/icons/icon-96.png",
-          "sizes": "96x96",
-          "type": "image/jpeg"
-        }
-      ],
-      "launch_type": "single-client"
     }
   ],
   "shortcuts": [
@@ -102,7 +92,8 @@
       "short_name": "Ask",
       "description": "Go directly to the chat",
       "url": "./index.html#chat",
-      "icons": [{ "src": "./assets/icons/icon-96.png", "sizes": "96x96", "type": "image/jpeg" }]
+      "icons": [{ "src": "./assets/icons/icon-96.png", "sizes": "96x96", "type": "image/png" }]
     }
-  ]
+  ],
+  "widgets": []
 }
