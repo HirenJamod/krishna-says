@@ -35,7 +35,7 @@
     },
     {
       "src": "./assets/icons/icon-512.png",
-      "sizes": "512x512",
+      "sizes": "1024x1024",
       "type": "image/jpeg",
       "purpose": "maskable any"
     }
