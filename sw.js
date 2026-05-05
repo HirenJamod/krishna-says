@@ -16,7 +16,7 @@ const ASSETS = [
   './js/razorpayAgent.js',
   './js/firebaseConfig.js',
   './manifest.json',
-  './assets/icons/icon-512.jpg',
+  './assets/icons/icon-512.png',
   './assets/screenshots/mobile.jpg'
 ];
 
