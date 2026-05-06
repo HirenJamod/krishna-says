@@ -218,10 +218,30 @@ app.post('/api/wisdom/ask', async (req, res) => {
         const allWisdom = await db.getAllWisdom();
         const dataset = allWisdom.filter(w => w.depth === depth);
         const activeDataset = dataset.length > 0 ? dataset : allWisdom.filter(w => w.depth === 'practical');
-        
-        let match = activeDataset.find(item => 
-            (item.keywords || []).some(keyword => lowerQuery.includes(keyword))
-        );
+
+        // Multi-language Keyword mapping for better matching
+        const langKeywords = {
+            peace: ['peace', 'shanti', 'शान्ति', 'શાંતિ', 'calm', 'सुकून'],
+            stress: ['stress', 'anxiety', 'tension', 'तनाव', 'चिंता', 'ચિંતા', 'તણાવ'],
+            purpose: ['purpose', 'goal', 'dharma', 'लक्ष्य', 'उद्देश्य', 'ધર્મ', 'ધ્યેય'],
+            karma: ['karma', 'action', 'deed', 'कर्म', 'કાર્ય', 'કર્મ'],
+            fear: ['fear', 'darr', 'डर', 'भय', 'ભય', 'ડર']
+        };
+
+        let match = activeDataset.find(item => {
+            const entryKeywords = (item.keywords || []).map(k => k.toLowerCase());
+            
+            // Check if user's direct keywords match
+            if (entryKeywords.some(keyword => lowerQuery.includes(keyword))) return true;
+            
+            // Check cross-language synonyms
+            for (const [topic, synonyms] of Object.entries(langKeywords)) {
+                if (synonyms.some(s => lowerQuery.includes(s)) && entryKeywords.some(ek => langKeywords[topic].includes(ek))) {
+                    return true;
+                }
+            }
+            return false;
+        });
         
         const defaultResponses = {
             en: "True wisdom lies in viewing all situations with a balanced mind. Remain centered in your principles, regardless of external circumstances.",
