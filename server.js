@@ -177,6 +177,69 @@ app.get('/api/admin/queries', requireAdmin, async (req, res) => {
 });
 
 // ═══════════════════════════════════════════════════════════════
+// PAYMENTS (RAZORPAY)
+// ═══════════════════════════════════════════════════════════════
+const Razorpay = require('razorpay');
+let razorpay;
+if (process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET) {
+    razorpay = new Razorpay({
+        key_id: process.env.RAZORPAY_KEY_ID,
+        key_secret: process.env.RAZORPAY_KEY_SECRET
+    });
+}
+
+app.post('/api/payments/create-order', async (req, res) => {
+    try {
+        if (!razorpay) return res.status(503).json({ error: 'Razorpay keys not configured' });
+        const { plan, amount } = req.body;
+        
+        const options = {
+            amount: amount * 100, // amount in paisa
+            currency: "INR",
+            receipt: `receipt_${Date.now()}`,
+            notes: { plan }
+        };
+        
+        const order = await razorpay.orders.create(options);
+        res.json({ success: true, order });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+app.post('/api/payments/verify', async (req, res) => {
+    try {
+        const { razorpay_order_id, razorpay_payment_id, razorpay_signature, session_id, plan, credits_delta } = req.body;
+        
+        const body = razorpay_order_id + "|" + razorpay_payment_id;
+        const expectedSignature = crypto
+            .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
+            .update(body.toString())
+            .digest('hex');
+
+        if (expectedSignature !== razorpay_signature) {
+            return res.status(400).json({ success: false, error: 'Invalid payment signature' });
+        }
+
+        // Update User Credits/Subscription
+        await db.logTransaction({
+            session_id,
+            user_name: 'Seeker',
+            type: 'subscription_upgrade',
+            plan,
+            amount: 0, // logged in Razorpay
+            credits_delta,
+            payment_id: razorpay_payment_id,
+            status: 'success'
+        });
+
+        res.json({ success: true });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// ═══════════════════════════════════════════════════════════════
 // TRANSACTIONS
 // ═══════════════════════════════════════════════════════════════
 app.post('/api/transactions/log', async (req, res) => {
