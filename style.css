@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
 
 :root {
-    --primary: #A67C00; /* Richer Gold for better contrast */
+    --primary: #A67C00; /* Richer Gold */
     --secondary: #FFB7C5; /* Lotus Pink */
     --accent: #FFFFFF; /* Pure Light */
-    --bg-dark: #F5F5F7; /* Morning Mist */
-    --glass: rgba(255, 255, 255, 0.9); /* Increased opacity to hide background characters */
-    --glass-border: rgba(212, 175, 55, 0.3); /* Golden Silk Border */
+    --bg-dark: #E5E5E7; /* Slightly darker background for better depth */
+    --glass: rgba(255, 255, 255, 0.95); /* Opaque enough to hide background elements */
+    --glass-border: rgba(166, 124, 0, 0.3); /* Golden Silk Border */
     --text-main: #2D3436;
     --text-dim: #636E72;
     --glow: rgba(166, 124, 0, 0.4);
@@ -490,8 +490,8 @@ body.login-pending .app-shell {
 
 .matrix-char {
     position: absolute;
-    color: rgba(0, 229, 255, 0.6);
-    text-shadow: 0 0 10px rgba(0, 229, 255, 1);
+    color: rgba(166, 124, 0, 0.4); /* Gold characters */
+    text-shadow: 0 0 10px rgba(166, 124, 0, 0.6);
     opacity: 0;
     animation: matrixFall var(--duration) linear infinite;
     pointer-events: none !important;
