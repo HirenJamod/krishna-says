@@ -522,12 +522,18 @@ elements.voiceToggle.addEventListener('click', () => {
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 if (SpeechRecognition) {
     const recognition = new SpeechRecognition();
-    recognition.onstart = () => elements.micBtn.classList.add('recording');
+    recognition.onstart = () => {
+        elements.micBtn.classList.add('recording');
+        // Stop background music so it doesn't interfere with the microphone
+        if (elements.bgAudio) elements.bgAudio.pause();
+    };
     recognition.onresult = (e) => {
         elements.userInput.value = e.results[0][0].transcript;
         handleSend();
     };
-    recognition.onend = () => elements.micBtn.classList.remove('recording');
+    recognition.onend = () => {
+        elements.micBtn.classList.remove('recording');
+    };
     elements.micBtn.addEventListener('click', () => recognition.start());
 } else {
     elements.micBtn.style.display = 'none';

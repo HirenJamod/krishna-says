@@ -234,9 +234,22 @@ export function addMessage(text, isUser = false, isHtml = false) {
 export function speak(text, lang, isEnabled) {
     if (!isEnabled || !window.speechSynthesis) return;
     window.speechSynthesis.cancel();
+    
+    const bgAudio = document.getElementById('bgAudio');
+    if (bgAudio) bgAudio.pause();
+
     const utterance = new SpeechSynthesisUtterance(text);
     const langMap = { hi: 'hi-IN', en: 'en-US', gu: 'gu-IN' };
     utterance.lang = langMap[lang] || 'en-US';
+    
+    utterance.onend = () => {
+        // Resume background music if it was playing previously
+        const savedSound = localStorage.getItem('bgSound') || 'flute';
+        if (bgAudio && savedSound !== 'none') {
+            bgAudio.play().catch(e => console.info('[audio] Resume blocked by browser.'));
+        }
+    };
+
     window.speechSynthesis.speak(utterance);
 }
 
