@@ -15,7 +15,7 @@
             --secondary: #FFB7C5; /* Lotus Pink */
             --accent: #FFFFFF; /* Pure Light */
             --bg-dark: #F5F5F7; /* Morning Mist */
-            --glass: rgba(255, 255, 255, 0.45); /* Frosted Glass */
+            --glass: rgba(255, 255, 255, 0.9); /* More opaque to hide background characters */
             --glass-border: rgba(212, 175, 55, 0.3); /* Golden Silk Border */
             --text-main: #2D3436;
             --text-dim: #636E72;
@@ -26,6 +26,7 @@
             min-height: 100vh; display: flex; justify-content: center; align-items: center;
             overflow: hidden;
         }
+        .app-shell { position: relative; z-index: 100; }
         .bg-mesh {
             position: fixed; inset: 0; z-index: -1;
             background: radial-gradient(circle at center, rgba(255, 183, 197, 0.2) 0%, rgba(245, 245, 247, 0.98) 100%);
@@ -300,9 +301,6 @@
                 <button class="subscribe-btn" style="margin-top: 2rem;">Recharge Credits</button>
             </section>
 
-            <!-- Floating 3D vibes -->
-            <div class="float-element" style="top: 10%; right: 5%;"></div>
-            <div class="float-element" style="bottom: 20%; left: 10%; background: var(--secondary);"></div>
         </main>
     </div>
 

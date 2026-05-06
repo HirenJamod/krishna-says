@@ -671,14 +671,14 @@ elements.templeToggle.addEventListener('click', () => {
     elements.templeToggle.classList.toggle('active', isOn);
 
     if (isOn) {
-        showToast('🪔 Temple Mode ON — Sacred atmosphere activated', 'success');
-        // Auto-switch to chants when entering temple mode
+        showToast('🪔 Cosmic Bhakti Mode — Sacred atmosphere activated', 'success');
+        // Auto-switch to indian culture music (chants)
         playBgAudio('chants');
     } else {
-        showToast('✨ Temple Mode OFF', 'info');
-        // Restore previous sound or flute
+        showToast('✨ Returned to Morning Mist', 'info');
+        // Restore previous sound preference
         const savedSound = localStorage.getItem('bgSound') || 'flute';
-        playBgAudio(savedSound === 'chants' ? 'flute' : savedSound);
+        playBgAudio(savedSound);
     }
 });
 
@@ -751,7 +751,7 @@ function initStarfield() {
     const starfield = document.getElementById('starfield');
     if (!starfield) return;
     
-    const count = 60;
+    const count = 150;
     const chars = ['ॐ', 'क्रि', 'श', 'न', 'ध', 'र्म', 'स', 'त्य', 'अ', 'आ', 'इ', 'ई'];
     for (let i = 0; i < count; i++) {
         const star = document.createElement('div');

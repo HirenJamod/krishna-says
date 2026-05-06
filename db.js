@@ -6,9 +6,17 @@ const { Pool } = require('pg');
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
+    max: 10,                 // Limit max connections to prevent overwhelming Supabase
+    idleTimeoutMillis: 30000, // Close idle connections after 30 seconds
+    connectionTimeoutMillis: 10000, // 10 seconds for more reliable cloud connection
     ssl: { 
         rejectUnauthorized: false 
     }
+});
+
+// Handle pool errors gracefully
+pool.on('error', (err, client) => {
+    console.error('Unexpected error on idle client', err);
 });
 
 // Initialize Database Tables

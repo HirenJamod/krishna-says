@@ -84,12 +84,10 @@ describe('Krishna Says — App UI Tests', () => {
     // ── Phone/OTP Fields ──────────────────────────────────────────────────────
     // Phone auth is paused — fields are hidden. Verify they exist in DOM but are hidden.
 
-    it('should have phone/OTP fields hidden in the DOM while in demo mode', () => {
-        const phoneInput = document.getElementById('userPhone');
-        expect(phoneInput).not.toBeNull();
-        // The phone input should be inside a hidden wrapper div
-        const wrapper = phoneInput.closest('div[style*="display: none"]');
-        expect(wrapper).not.toBeNull();
+    it('should have OTP fields hidden in the DOM initially', () => {
+        const otpWrapper = document.getElementById('otpWrapper');
+        expect(otpWrapper).not.toBeNull();
+        expect(otpWrapper.style.display).toBe('none');
     });
 
     // ── Name-only Login (Demo Mode) ───────────────────────────────────────────
@@ -155,7 +153,7 @@ describe('Krishna Says — App UI Tests', () => {
         // Clear any stars already added during beforeEach, then re-run a clean init
         starfield.innerHTML = '';
         window.initStarfield();
-        const stars = starfield.querySelectorAll('.star');
+        const stars = starfield.querySelectorAll('.matrix-char');
         expect(stars.length).toBe(150);
     });
 
