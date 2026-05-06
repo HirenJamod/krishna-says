@@ -215,6 +215,18 @@ app.post('/api/wisdom/ask', async (req, res) => {
         const { query, depth = 'practical', mood = 'neutral', lang = 'en' } = req.body;
         const lowerQuery = (query || '').toLowerCase();
         
+        // Default Config if not in DB
+        const defaultConfig = {
+            plans: {
+                basic:     { name: "Arjuna's Path", price: 199, credits: 500 },
+                unlimited: { name: "Vedic Master",  price: 2999, credits: 99999 }
+            },
+            freeTier: { dailyLimit: 3, initialCredits: 10 }
+        };
+
+        const dbConfig = await db.getAllConfig();
+        const cfg = { ...defaultConfig, ...dbConfig };
+        
         const allWisdom = await db.getAllWisdom();
         const dataset = allWisdom.filter(w => w.depth === depth);
         const activeDataset = dataset.length > 0 ? dataset : allWisdom.filter(w => w.depth === 'practical');
