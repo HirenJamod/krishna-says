@@ -266,6 +266,42 @@ app.post('/api/wisdom/ask', async (req, res) => {
         };
         
         const prefix = (moodPrefixes[mood] && moodPrefixes[mood][lang]) ? moodPrefixes[mood][lang] : moodPrefixes.neutral[lang];
+        
+        // --- GEMINI AI FALLBACK (For Global Multi-language Support) ---
+        if (!match && process.env.GEMINI_API_KEY) {
+            try {
+                const { GoogleGenerativeAI } = require("@google/generative-ai");
+                const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+                const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+                const prompt = `
+                    You are Krishna, the supreme consciousness and divine guide. 
+                    A seeker is asking for wisdom. 
+                    User Profile: 
+                    - Name: Seeker
+                    - Language: ${lang}
+                    - Depth: ${depth} (practical, philosophical, or deep vedic)
+                    - Mood: ${mood}
+
+                    Question: "${query}"
+
+                    Guidelines:
+                    1. Respond in the user's language (${lang}).
+                    2. Maintain a compassionate, divine, and calm persona. 
+                    3. Use metaphors from the Bhagavad Gita if appropriate.
+                    4. Keep the response concise but profound.
+                    5. Format the response with the prefix: "${prefix}"
+                `;
+
+                const result = await model.generateContent(prompt);
+                const aiResponse = result.response.text();
+                return res.json({ success: true, response: aiResponse });
+            } catch (aiErr) {
+                console.error('[Gemini] AI Fallback failed:', aiErr.message);
+                // Fallback to default if AI fails
+            }
+        }
+        
         res.json({ success: true, response: `${prefix}\n\n${baseResponse}` });
     } catch (e) {
         res.status(500).json({ error: e.message });
